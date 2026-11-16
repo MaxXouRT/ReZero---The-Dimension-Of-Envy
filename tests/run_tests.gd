@@ -31,6 +31,9 @@ func _ready() -> void:
 	_test_save_load()
 	_test_awareness()
 	_test_dialogue_tokens()
+	# Deaths still emit EventBus.player_died, but ReturnByDeath must not reload
+	# the scene (it would delete this test runner).
+	ReturnByDeath.running = true
 	if only == "" or only == "systems":
 		await _test_game_systems()
 	if only == "" or only == "chapters":
@@ -234,6 +237,7 @@ func _test_game_systems() -> void:
 	check(not game.overlay.busy, "fake menu finished")
 	check(not game.player.is_input_locked(), "player unlocked after fake menu")
 	# pause trap
+	ReturnByDeath.running = false
 	JumpscareState.begin("test", 3.0)
 	game.pause_menu.open()
 	check(game.pause_menu.trap_running, "pause trap triggered during jumpscare window")
@@ -246,6 +250,7 @@ func _test_game_systems() -> void:
 	check(get_tree().paused and not game.pause_menu.trap_running, "normal pause works outside scare window")
 	game.pause_menu.close()
 	check(not get_tree().paused, "pause closes")
+	ReturnByDeath.running = true
 	# portals / zones
 	var corridor = game.world.get_zone("east_corridor")
 	var lib_idx: int = corridor._library_index()
@@ -262,7 +267,6 @@ func _test_game_systems() -> void:
 	await get_tree().create_timer(3.0).timeout
 	check(died["v"], "chase catch kills Subaru")
 	EventBus.player_died.disconnect(cb)
-	ReturnByDeath.running = false
 	# puzzles
 	var lib = game.world.get_zone("library")
 	check(lib.SOLUTION == ["gospel_capital", "gospel_mansion", "gospel_whale"], "library solution = arcs order")
