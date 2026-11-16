@@ -131,6 +131,10 @@ func is_input_locked() -> bool:
 func _unhandled_input(event: InputEvent) -> void:
 	if is_input_locked():
 		return
+	# Mouse events synthesized from touches (mobile): the on-screen buttons and
+	# the look area already handle touch, a tap must not count as "interact".
+	if event is InputEventMouse and event.device == InputEvent.DEVICE_ID_EMULATION:
+		return
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED and mouse_enabled:
 		var inv := -1.0 if Settings.invert_y else 1.0
 		add_look(event.relative * Settings.mouse_sensitivity * Vector2(1.0, inv))

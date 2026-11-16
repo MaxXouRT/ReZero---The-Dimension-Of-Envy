@@ -59,6 +59,16 @@ func _ready() -> void:
 	visible = false
 
 
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_GO_BACK_REQUEST:
+		if game and game.journal and game.journal.is_open:
+			game.journal.close()
+		elif game and game.reader and game.reader.is_open():
+			game.reader.close()
+		else:
+			toggle()
+
+
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause"):
 		get_viewport().set_input_as_handled()

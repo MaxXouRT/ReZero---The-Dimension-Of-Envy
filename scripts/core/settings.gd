@@ -60,6 +60,7 @@ const SAVED_KEYS := [
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	force_mobile = OS.get_cmdline_user_args().has("--mobile")
 	_setup_input_map()
 	if is_mobile():
 		# Sensible defaults for phones / tablets.
@@ -72,7 +73,12 @@ func _ready() -> void:
 
 
 ## True on Android / iOS exports or any device exposing a touch screen only.
+var force_mobile := false   ## QA: "--mobile" on the command line simulates a phone on PC
+
+
 func is_mobile() -> bool:
+	if force_mobile:
+		return true
 	return OS.has_feature("mobile") or OS.has_feature("android") or OS.has_feature("ios")
 
 

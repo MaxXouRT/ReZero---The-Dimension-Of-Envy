@@ -6,6 +6,7 @@
 |---|---|---|
 | Vérificateur de scripts | `godot --headless --path . res://tests/check_scripts.tscn` | tous les scripts GDScript compilent (avec les autoloads) |
 | Suite gameplay | `godot --headless --path . res://tests/run_tests.tscn [-- --only=systems|chapters|walk|meta]` | voir ci-dessous |
+| Test tactile (téléphone simulé) | `godot --headless --path . res://tests/touch_test.tscn -- --mobile` | menus au doigt, joystick, regard, boutons à l’écran, bouton Retour Android |
 | Visite visuelle | `xvfb-run godot --path . --rendering-driver vulkan res://tests/screenshot_tour.tscn -- --out=DIR` | capture chaque zone + Satella (rendu Forward+ réel, compilation des shaders) |
 | Capture de scène | `res://tests/capture_scene.tscn -- --scene=… --time=… --out=…` (`--visits=N`, `--true`) | lobby et ses variantes |
 | Capture de mort | `res://tests/capture_death.tscn -- DIR` | écran Return by Death |
