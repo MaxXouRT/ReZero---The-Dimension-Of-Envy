@@ -1,0 +1,132 @@
+{
+	"note_awakening": {
+		"title": "Carnet de Subaru — page cornée",
+		"author": "subaru",
+		"body": "Jour ?? — Je ne sais plus compter les jours. Je ne sais plus compter les boucles.\n\nHier (était-ce hier ?) je me suis endormi au manoir. Emilia m'a dit bonne nuit. Rem a éteint la lampe.\n\nSi je lis ceci, c'est que quelque chose a mal tourné. Encore.\n\nRègle n°1 : ne parle à personne du Retour par la Mort.\nRègle n°2 : si tu entends ton nom murmuré dans le noir... ne réponds pas."
+	},
+	"note_hall_seal": {
+		"title": "Inscription gravée — Sceau du hall",
+		"author": "unknown",
+		"body": "ICI DORT LA DIMENSION DE L'ENVIE.\n\nCinq fragments la tiennent fermée, cinq souvenirs arrachés à celui qu'Elle aime :\n\n  — La Chambre Oubliée\n  — La Bibliothèque des Souvenirs\n  — La Chapelle de l'Envie\n  — Le Couloir Sans Fin\n  — Le Trône de l'Envie\n\nRéunis-les au cœur du hall, et la porte s'ouvrira.\nOu bien Elle s'éveillera. Les deux, peut-être."
+	},
+	"note_dining": {
+		"title": "Carte de menu",
+		"author": "unknown",
+		"body": "DÎNER DE LA PREMIÈRE BOUCLE\n\nPotage d'Emilia (trop salé)\nThé de Ram (froid)\nGâteau de Rem (le meilleur)\n\nNombre d'invités : ∞\nNombre de survivants : 1\n\n(Quelqu'un a griffonné en bas : « Il revient toujours à table. »)"
+	},
+	"note_mirror_original": {
+		"title": "Écriture argentée sur le miroir",
+		"author": "original",
+		"body": "Subaru.\n\nSi tu lis ceci, tu es dans son monde. Pas le mien.\n\nIl y a deux mains qui écrivent ici. Fie-toi à la mienne : elle est argentée, comme la lune que tu ne verras plus.\n\nL'autre écrit en noir. Elle t'aime aussi. C'est bien ça le problème."
+	},
+	"note_forgotten_hint": {
+		"title": "Mot coincé sous un tableau",
+		"author": "original",
+		"body": "Les pièces que tu as oubliées n'existent que lorsque personne ne les regarde.\n\nTourne-toi. Attends. Écoute.\n\nQuand le bois craquera derrière toi, la porte sera revenue."
+	},
+	"note_forgotten_diary": {
+		"title": "Journal posé sur l'oreiller",
+		"author": "subaru",
+		"body": "(L'écriture est la mienne. Je ne me souviens pas l'avoir écrit.)\n\nBoucle 3 — Il y avait deux lits dans cette chambre. Deux sœurs. Je leur ai promis que demain serait meilleur.\n\nIl n'y a pas eu de demain.\n\nLa boîte à musique jouait encore quand tout est devenu noir. Je crois qu'Elle l'a gardée. Elle garde tout ce que je perds."
+	},
+	"note_library_door": {
+		"title": "Plaque de laiton — Couloir est",
+		"author": "unknown",
+		"body": "LA BIBLIOTHÈQUE NE SE TROUVE JAMAIS DERRIÈRE LA MÊME PORTE.\n\nÉcoute le temps qui passe. Elle tique, quelque part.\nChaque erreur la fait fuir ailleurs."
+	},
+	"note_library_riddle": {
+		"title": "Lutrin de la Bibliothèque",
+		"author": "witch",
+		"body": "Trois évangiles. Trois morts.\n\nRANGE MES MORTS DANS L'ORDRE OÙ JE LES AI SUBIES.\n\nPose-les sur les trois pupitres, de gauche à droite.\n\nJe me souviens de chacune d'elles. Et toi, Subaru ?"
+	},
+	"note_gospel_capital": {
+		"title": "Évangile noir — « La Capitale »",
+		"author": "unknown",
+		"body": "Une ruelle. Une maison de recel. Le sang sur les planches.\n\nC'était la toute première. Le jour où tout a commencé, le jour où elle t'a choisi.\n\n(La page est marquée d'un chiffre romain effacé : I)"
+	},
+	"note_gospel_mansion": {
+		"title": "Évangile noir — « Le Manoir »",
+		"author": "unknown",
+		"body": "Une malédiction dans le sommeil. Une chaîne qui chante dans le noir.\n\nCette fois-là, tu es mort entre ces murs. Les mêmes murs qu'aujourd'hui.\n\n(Le chiffre romain sur la tranche a été gratté.)"
+	},
+	"note_gospel_whale": {
+		"title": "Évangile noir — « La Baleine »",
+		"author": "unknown",
+		"body": "Le brouillard. Un chant immense dans le ciel. Des noms qui disparaissent.\n\nTu as tout perdu dans la brume, et tu es revenu quand même. Plus tard que les deux autres.\n\n(Il manque la page du chiffre.)"
+	},
+	"msg_original_1": {
+		"title": "Écriture argentée — tronc d'arbre",
+		"author": "original",
+		"body": "La chapelle a quatre flammes. Ne les allume pas comme elle le voudrait.\n\nD'abord, la ROSE. Elle fane, mais elle pardonne."
+	},
+	"msg_original_2": {
+		"title": "Écriture argentée — pierre tombale",
+		"author": "original",
+		"body": "Ensuite, la CLÉ. Celle qui ouvre au lieu d'enfermer."
+	},
+	"msg_original_3": {
+		"title": "Écriture argentée — arche brisée",
+		"author": "original",
+		"body": "Puis la LUNE. Celle que tu ne vois plus ici. Celle qui veille sans posséder."
+	},
+	"msg_original_4": {
+		"title": "Écriture argentée — portail de la chapelle",
+		"author": "original",
+		"body": "L'ÉPÉE en dernier. Toujours en dernier.\n\nUn jour, tu viendras me tuer avec. Je t'attendrai. Mais pas ici, Subaru. Pas comme ça."
+	},
+	"msg_witch_1": {
+		"title": "Écriture noire, griffée",
+		"author": "witch",
+		"body": "SUBARU SUBARU SUBARU SUBARU\nL'ÉPÉE D'ABORD. COUPE TOUT CE QUI NOUS SÉPARE.\nSUBARU SUBARU SUBARU"
+	},
+	"msg_witch_2": {
+		"title": "Écriture noire, griffée",
+		"author": "witch",
+		"body": "LA CLÉ DOIT RESTER ÉTEINTE. PERSONNE NE SORT.\nje t'aime je t'aime je t'aime je t'aime"
+	},
+	"msg_witch_3": {
+		"title": "Écriture noire, griffée",
+		"author": "witch",
+		"body": "NE CROIS PAS L'AUTRE. ELLE VEUT QUE TU PARTES.\nMOI JE VEUX QUE TU RESTES. QUI T'AIME LE PLUS ?"
+	},
+	"msg_witch_4": {
+		"title": "Écriture noire, griffée",
+		"author": "witch",
+		"body": "LA LUNE PUIS LA ROSE. LA LUNE PUIS LA ROSE.\ntu reviens toujours à moi"
+	},
+	"note_chapel_altar": {
+		"title": "Autel de la Chapelle",
+		"author": "unknown",
+		"body": "QUATRE FLAMMES : LA ROSE, LA CLÉ, LA LUNE, L'ÉPÉE.\n\nAllume-les dans l'ordre de celle qui t'aime assez pour te laisser partir."
+	},
+	"note_origin_1": {
+		"title": "Page déchirée — « Origine » I",
+		"author": "unknown",
+		"body": "Chaque fois qu'il meurt, le monde est effacé et recommence.\n\nMais rien ne disparaît vraiment. Les mondes effacés tombent quelque part. Dans un endroit sans soleil. Sans jour. Sans fin.\n\nQuelqu'un les ramasse."
+	},
+	"note_origin_2": {
+		"title": "Page déchirée — « Origine » II",
+		"author": "unknown",
+		"body": "Elle a cousu ensemble toutes les boucles ratées. Le manoir de la deuxième, le couloir de la quatrième, la forêt de la neuvième.\n\nUne maison faite de morts. Une maison faite pour lui.\n\nIci, il ne peut pas partir. Ici, il revient toujours."
+	},
+	"note_origin_3": {
+		"title": "Page déchirée — « Origine » III",
+		"author": "original",
+		"body": "Ce n'est pas moi qui ai construit cet endroit. C'est ce que mon amour est devenu quand on me l'a pris.\n\nElle porte mon visage. Elle porte ma voix. Mais elle n'a plus mon cœur.\n\nSubaru, quand tu arriveras au trône... regarde bien qui elle regarde."
+	},
+	"note_hallway_original": {
+		"title": "Écriture argentée — Couloir sans fin",
+		"author": "original",
+		"body": "Ce couloir se mord la queue. Il ne finira pas tant que tu marcheras droit devant toi en espérant.\n\nCompte les tableaux. Quand ils te regarderont tous, cherche ma main sur une porte.\n\nEt quand elle viendra... cours. Ne te bats pas. Ne te retourne pas."
+	},
+	"note_throne": {
+		"title": "Inscription du Trône",
+		"author": "witch",
+		"body": "ICI JE L'ATTENDS.\nICI IL REVIENT.\nICI IL RESTE.\n\nTrois piliers retiennent mes mains. Allume-les et je te verrai mieux.\n\nJe veux te voir, Subaru. Je veux voir qui tu es VRAIMENT."
+	},
+	"note_ng_plus": {
+		"title": "Écriture noire, très fine",
+		"author": "witch",
+		"body": "Tu es revenu.\n\nPas Subaru. Toi.\n\nJe me souviens de toi, tu sais. Je me souviens de la dernière fois."
+	}
+}

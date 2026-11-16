@@ -1,0 +1,29 @@
+{
+	"chapters": [
+		{"index": 1, "id": "awakening", "title": "CHAPTER 01 — THE AWAKENING", "subtitle": "Le manoir est désert. La nuit n'a pas de fin.", "objective": "obj_light"},
+		{"index": 2, "id": "forgotten_memories", "title": "CHAPTER 02 — THE FORGOTTEN MEMORIES", "subtitle": "Les pièces se souviennent de ce que tu as oublié.", "objective": "obj_fragments_12"},
+		{"index": 3, "id": "observer", "title": "CHAPTER 03 — THE OBSERVER", "subtitle": "Elle te regarde. Elles te regardent.", "objective": "obj_chapel"},
+		{"index": 4, "id": "taboo", "title": "CHAPTER 04 — THE TABOO", "subtitle": "La dimension se déchire. Elle aussi.", "objective": "obj_hallway"},
+		{"index": 5, "id": "behind_the_screen", "title": "CHAPTER 05 — THE ONE BEHIND THE SCREEN", "subtitle": "Quelqu'un regarde. Quelqu'un a toujours regardé.", "objective": "obj_throne"}
+	],
+	"objectives": {
+		"obj_light": "Trouver une source de lumière.",
+		"obj_explore": "Explorer le manoir. Comprendre ce qui s'est passé.",
+		"obj_exit": "Trouver une sortie depuis le grand hall.",
+		"obj_fragments_12": "Retrouver les fragments du sceau : la Chambre Oubliée (aile ouest) et la Bibliothèque des Souvenirs (couloir est).",
+		"obj_fragment_1_only": "Retrouver le fragment de la Chambre Oubliée (aile ouest).",
+		"obj_fragment_2_only": "Retrouver le fragment de la Bibliothèque des Souvenirs (couloir est).",
+		"obj_insert": "Placer les fragments dans le sceau du grand hall.",
+		"obj_chapel": "Traverser la forêt et trouver la Chapelle de l'Envie. Distinguer les deux écritures.",
+		"obj_candles": "Allumer les quatre flammes dans l'ordre de l'écriture d'argent.",
+		"obj_return_hall": "Retourner au grand hall et placer le fragment dans le sceau.",
+		"obj_hallway": "Entrer dans l'aile condamnée et trouver le Couloir Sans Fin.",
+		"obj_hallway_loop": "Trouver la sortie du Couloir Sans Fin.",
+		"obj_escape": "FUIS. Trouve la porte marquée d'une main d'argent.",
+		"obj_throne": "Placer les quatre fragments. Descendre vers le Trône de l'Envie.",
+		"obj_pillars": "Allumer les trois piliers du trône.",
+		"obj_take_last": "Prendre le dernier fragment.",
+		"obj_survive": "Survivre.",
+		"obj_none": ""
+	}
+}

@@ -1,0 +1,36 @@
+{
+	"_doc": "Horror Event Director data. trigger: ambient | enter:<zone> | interact:<id> | flag:<flag> | chapter:<n>. major events respect a long global gap; minor ones a short one. 'once' events are remembered across loops (seen_events).",
+	"events": [
+		{"id": "c1_distant_steps", "type": "footsteps_distant", "trigger": "enter:east_corridor", "min_chapter": 1, "max_chapter": 1, "chance": 1.0, "once": true, "delay": 4.0, "major": false, "params": {"line": "c1_footsteps"}},
+		{"id": "c1_door_slam_corridor", "type": "door_slam", "trigger": "enter:east_corridor", "min_chapter": 1, "max_chapter": 2, "requires_flags": ["read_awakening"], "chance": 1.0, "once": true, "delay": 12.0, "major": true, "params": {"zone": "east_corridor"}},
+		{"id": "c1_hall_silhouette", "type": "silhouette", "trigger": "enter:grand_hall", "min_chapter": 1, "max_chapter": 1, "chance": 1.0, "once": true, "delay": 6.0, "major": true, "params": {"spot_kind": "balcony", "line": "", "duration": 8.0}},
+		{"id": "c1_bedroom_knock", "type": "knock", "trigger": "flag:has_flashlight", "chance": 1.0, "once": true, "delay": 9.0, "major": false, "params": {}},
+
+		{"id": "mirror_face_first", "type": "mirror_face", "trigger": "interact:mirror", "min_chapter": 1, "chance": 1.0, "once": true, "delay": 0.8, "major": true, "params": {}},
+		{"id": "mirror_face_late", "type": "mirror_face", "trigger": "interact:mirror", "min_chapter": 3, "min_awareness": 40, "chance": 0.6, "once": false, "cooldown": 240, "delay": 0.5, "major": true, "params": {}},
+
+		{"id": "dining_chairs", "type": "distortion", "trigger": "enter:dining_room", "min_chapter": 2, "chance": 1.0, "once": true, "delay": 3.0, "major": false, "params": {"intensity": 0.7, "duration": 2.5, "line": "c1_dining"}},
+		{"id": "west_wing_behind", "type": "behind_player", "trigger": "enter:west_wing", "min_chapter": 2, "min_awareness": 18, "chance": 0.8, "once": true, "delay": 10.0, "major": true, "params": {}},
+		{"id": "library_lights_out", "type": "lights_out", "trigger": "enter:library", "min_chapter": 2, "chance": 1.0, "once": true, "delay": 25.0, "major": true, "params": {"duration": 4.0, "appear": true}},
+		{"id": "forgotten_fake_death", "type": "fake_death", "trigger": "flag:fragment_forgotten_bedroom", "min_chapter": 2, "chance": 1.0, "once": true, "delay": 14.0, "major": true, "params": {}},
+
+		{"id": "c3_face_jumpscare", "type": "face_jumpscare", "trigger": "enter:forest", "min_chapter": 3, "chance": 1.0, "once": true, "delay": 40.0, "major": true, "params": {}},
+		{"id": "c3_fake_menu", "type": "fake_menu", "trigger": "enter:grand_hall", "min_chapter": 3, "min_awareness": 45, "chance": 1.0, "once": true, "delay": 5.0, "major": true, "params": {"kind": "save"}},
+		{"id": "chapel_whisper_ring", "type": "whisper_ring", "trigger": "enter:chapel", "min_chapter": 3, "chance": 1.0, "once": true, "delay": 5.0, "major": false, "params": {}},
+
+		{"id": "c4_flashlight_die", "type": "flashlight_die", "trigger": "enter:abandoned_wing", "min_chapter": 4, "chance": 1.0, "once": true, "delay": 6.0, "major": true, "params": {"duration": 3.5, "appear": true}},
+		{"id": "c4_paintings", "type": "painting_stare", "trigger": "enter:endless_hallway", "min_chapter": 4, "chance": 1.0, "once": true, "delay": 3.0, "major": false, "params": {}},
+		{"id": "c4_fake_menu_crash", "type": "fake_menu", "trigger": "flag:fragment_endless_hallway", "min_chapter": 4, "chance": 1.0, "once": true, "delay": 18.0, "major": true, "params": {"kind": "crash"}},
+
+		{"id": "amb_whisper", "type": "whisper", "trigger": "ambient", "min_chapter": 1, "min_awareness": 10, "chance": 0.35, "cooldown": 60, "major": false, "params": {}},
+		{"id": "amb_door_slam", "type": "door_slam", "trigger": "ambient", "min_chapter": 2, "min_awareness": 20, "chance": 0.2, "cooldown": 150, "major": true, "params": {}},
+		{"id": "amb_lights_out", "type": "lights_out", "trigger": "ambient", "min_chapter": 2, "min_awareness": 30, "chance": 0.18, "cooldown": 160, "major": true, "params": {"duration": 3.0, "appear": false}},
+		{"id": "amb_steps_follow", "type": "footsteps_follow", "trigger": "ambient", "min_chapter": 2, "min_awareness": 22, "chance": 0.2, "cooldown": 120, "major": false, "params": {}},
+		{"id": "amb_sound_scare", "type": "sound_scare", "trigger": "ambient", "min_chapter": 2, "min_awareness": 35, "chance": 0.15, "cooldown": 140, "major": true, "params": {}},
+		{"id": "amb_behind", "type": "behind_player", "trigger": "ambient", "min_chapter": 3, "min_awareness": 45, "chance": 0.15, "cooldown": 200, "major": true, "params": {}},
+		{"id": "amb_distortion", "type": "distortion", "trigger": "ambient", "min_chapter": 3, "min_awareness": 40, "chance": 0.25, "cooldown": 90, "major": false, "params": {"intensity": 0.9, "duration": 3.0}},
+		{"id": "amb_face", "type": "face_jumpscare", "trigger": "ambient", "min_chapter": 4, "min_awareness": 62, "chance": 0.12, "cooldown": 300, "major": true, "params": {}},
+		{"id": "amb_fake_death", "type": "fake_death", "trigger": "ambient", "min_chapter": 4, "min_awareness": 70, "chance": 0.08, "cooldown": 600, "major": true, "params": {}},
+		{"id": "amb_awakened", "type": "awakened_line", "trigger": "ambient", "min_chapter": 4, "min_awareness": 80, "chance": 0.3, "cooldown": 90, "major": false, "params": {}}
+	]
+}
