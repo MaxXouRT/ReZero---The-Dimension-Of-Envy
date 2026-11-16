@@ -63,6 +63,7 @@ lights_and_shadows/positional_shadow/atlas_size.mobile=2048
 environment/volumetric_fog/volume_size=96
 environment/volumetric_fog/volume_depth=96
 environment/defaults/default_clear_color=Color(0.02, 0.008, 0.03, 1)
+limits/opengl/max_lights_per_object=6
 anti_aliasing/quality/msaa_3d=1
 anti_aliasing/quality/screen_space_aa=1
 
@@ -75,4 +76,8 @@ distortion={
 envy_pulse={
 "type": "float",
 "value": 0.0
+}
+material_quality={
+"type": "float",
+"value": 1.0
 }

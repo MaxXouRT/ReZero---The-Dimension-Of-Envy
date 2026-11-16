@@ -75,6 +75,53 @@ func fade_to_black(duration: float) -> void:
 	await tw.finished
 
 
+## Return by Death awakening: Subaru's eyelids open (two slow blinks, then
+## wide open), the world blurred by the post-process for a moment.
+func open_eyes(duration := 2.4) -> void:
+	var vs := get_viewport().get_visible_rect().size
+	var lids: Array[TextureRect] = []
+	for i in 2:
+		var g := Gradient.new()
+		g.set_color(0, Color(0, 0, 0, 1))
+		g.set_color(1, Color(0, 0, 0, 0))
+		g.set_offset(0, 0.82)
+		var gt := GradientTexture2D.new()
+		gt.gradient = g
+		gt.fill_from = Vector2(0, 0) if i == 0 else Vector2(0, 1)
+		gt.fill_to = Vector2(0, 1) if i == 0 else Vector2(0, 0)
+		gt.width = 4
+		gt.height = 256
+		var r := TextureRect.new()
+		r.texture = gt
+		r.stretch_mode = TextureRect.STRETCH_SCALE
+		r.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		r.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		r.size = Vector2(vs.x, vs.y * 0.62)
+		r.position = Vector2(0, 0 if i == 0 else vs.y * 0.38)
+		add_child(r)
+		lids.append(r)
+	fade_rect.color.a = 0.0
+	_glitch = 0.0
+	_wave = 0.6
+	_wave_time = duration
+	var top_closed := 0.0
+	var bot_closed := vs.y * 0.38
+	var top_open := -vs.y * 0.62
+	var bot_open := vs.y
+	var tw := create_tween()
+	# two heavy blinks, then the eyes open for good
+	for k in [0.18, 0.35]:
+		tw.tween_property(lids[0], "position:y", lerpf(top_closed, top_open, k), duration * 0.12).set_trans(Tween.TRANS_SINE)
+		tw.parallel().tween_property(lids[1], "position:y", lerpf(bot_closed, bot_open, k), duration * 0.12).set_trans(Tween.TRANS_SINE)
+		tw.tween_property(lids[0], "position:y", top_closed, duration * 0.08)
+		tw.parallel().tween_property(lids[1], "position:y", bot_closed, duration * 0.08)
+	tw.tween_property(lids[0], "position:y", top_open, duration * 0.5).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tw.parallel().tween_property(lids[1], "position:y", bot_open, duration * 0.5).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	await tw.finished
+	for r in lids:
+		r.queue_free()
+
+
 func fade_from_black(duration: float) -> void:
 	fade_rect.color.a = 1.0
 	var tw := create_tween()

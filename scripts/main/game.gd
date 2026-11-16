@@ -189,6 +189,15 @@ func _build_environment() -> void:
 	void_light.shadow_enabled = false
 	void_light.light_volumetric_fog_energy = 0.4
 	add_child(void_light)
+	var night := DirectionalLight3D.new()
+	night.name = "NightSky"
+	night.light_color = Color(0.42, 0.36, 0.7)
+	night.light_energy = 0.8
+	night.rotation_degrees = Vector3(-35, 150, 0)
+	night.shadow_enabled = false
+	night.light_cull_mask = 4
+	night.light_volumetric_fog_energy = 0.0
+	add_child(night)
 
 
 func _apply_graphics() -> void:
@@ -198,10 +207,25 @@ func _apply_graphics() -> void:
 	env.ssao_enabled = Settings.ssao and forward_plus
 	env.glow_enabled = Settings.glow
 	env.adjustment_brightness = Settings.brightness
+	# the Compatibility renderer (phones) has no SSAO: a darker ambient keeps the dread
+	env.ambient_light_energy = 1.0 if forward_plus else 0.6
+	Settings.apply_display()
+	var all_shadows := Settings.shadows and Settings.shadow_quality >= 2
 	for l in get_tree().get_nodes_in_group("flicker_lights"):
 		if l is Light3D:
-			if not l.has_meta("authored_shadow"):
-				l.set_meta("authored_shadow", l.shadow_enabled)
-			l.shadow_enabled = bool(l.get_meta("authored_shadow")) and Settings.shadows
+			var light := l as Light3D
+			if not light.has_meta("authored_shadow"):
+				light.set_meta("authored_shadow", light.shadow_enabled)
+			light.shadow_enabled = bool(light.get_meta("authored_shadow")) and all_shadows
+			# far lights fade out and stop costing anything
+			light.distance_fade_enabled = true
+			light.distance_fade_begin = Settings.light_distance
+			light.distance_fade_length = 4.0
+			light.distance_fade_shadow = minf(Settings.light_distance * 0.5, 15.0)
 	if player:
-		player.flashlight.spot.shadow_enabled = Settings.shadows or Settings.quality > 0
+		player.flashlight.spot.shadow_enabled = Settings.shadows and Settings.shadow_quality >= 1
+		player.camera.far = Settings.view_distance
+	if post:
+		post.rect.visible = Settings.post_process
+	if hud:
+		hud.set_fps_visible(Settings.show_fps)

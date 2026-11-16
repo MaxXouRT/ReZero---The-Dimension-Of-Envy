@@ -13,6 +13,7 @@ render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_burley, specular_sc
 
 global uniform float distortion;
 global uniform float envy_pulse;
+global uniform float material_quality;
 
 uniform int pattern = 0;
 uniform vec4 color_a : source_color = vec4(0.12, 0.06, 0.16, 1.0);
@@ -41,6 +42,11 @@ void vertex() {
 	}
 }
 
+// Low material quality (phones): one noise octave instead of five.
+float fbmq(vec2 p) {
+	return material_quality > 0.5 ? fbm(p) : vnoise(p) * 0.85 + 0.075;
+}
+
 vec2 tri_uv(vec3 p, vec3 n) {
 	vec3 an = abs(n);
 	if (an.y > an.x && an.y > an.z) {
@@ -56,7 +62,7 @@ vec4 eval_pattern(vec2 uv, out vec3 albedo, out float rough) {
 	float h = 0.5;
 	rough = roughness_base;
 	vec2 p = uv * scale;
-	float n = fbm(p * 3.0);
+	float n = fbmq(p * 3.0);
 	if (pattern == 0) {
 		// Damask: diamond lattice + petals + thin stripes
 		vec2 cell = vec2(0.55, 0.75);
@@ -73,7 +79,7 @@ vec4 eval_pattern(vec2 uv, out vec3 albedo, out float rough) {
 		float m = clamp(motif + diamond * 0.8 + stripe * 0.3, 0.0, 1.0);
 		albedo = mix(color_a.rgb, color_b.rgb, m);
 		// peeling / water stains
-		float stain = smoothstep(0.55, 0.85, fbm(p * 0.7 + 3.1));
+		float stain = smoothstep(0.55, 0.85, fbmq(p * 0.7 + 3.1));
 		albedo = mix(albedo, color_c.rgb, stain * grime);
 		h = 0.5 + m * 0.15 - stain * 0.2;
 		rough = roughness_base - m * 0.25;
@@ -83,7 +89,7 @@ vec4 eval_pattern(vec2 uv, out vec3 albedo, out float rough) {
 		float along = p.x + hash12(vec2(row, 3.0)) * 7.0;
 		float seg = floor(along / 2.4);
 		float tint = hash12(vec2(row, seg));
-		float grain = sin((p.y * 90.0 + fbm(vec2(along * 1.5, p.y * 20.0)) * 9.0)) * 0.5 + 0.5;
+		float grain = sin((p.y * 90.0 + fbmq(vec2(along * 1.5, p.y * 20.0)) * 9.0)) * 0.5 + 0.5;
 		float gap = smoothstep(0.0, 0.012, fract(p.y / w) * w) * smoothstep(0.0, 0.012, (1.0 - fract(p.y / w)) * w);
 		float gap2 = smoothstep(0.0, 0.01, fract(along / 2.4) * 2.4);
 		albedo = mix(color_a.rgb, color_b.rgb, tint * 0.7 + grain * 0.3);
@@ -102,7 +108,7 @@ vec4 eval_pattern(vec2 uv, out vec3 albedo, out float rough) {
 		float tint = hash12(id);
 		albedo = mix(color_a.rgb, color_b.rgb, tint * 0.6 + n * 0.4);
 		albedo = mix(color_c.rgb, albedo, mortar);
-		albedo = mix(albedo, albedo * 0.5, smoothstep(0.55, 0.8, fbm(p * 1.3)) * grime);
+		albedo = mix(albedo, albedo * 0.5, smoothstep(0.55, 0.8, fbmq(p * 1.3)) * grime);
 		h = mortar * (0.6 + n * 0.3);
 		rough = mix(0.95, roughness_base, mortar);
 	} else if (pattern == 3) {
@@ -116,16 +122,16 @@ vec4 eval_pattern(vec2 uv, out vec3 albedo, out float rough) {
 		h = 0.5 + fuzz * 0.1;
 		rough = 1.0;
 	} else if (pattern == 4) {
-		float crack = smoothstep(0.02, 0.0, abs(fbm(p * 1.5) - 0.5));
+		float crack = smoothstep(0.02, 0.0, abs(fbmq(p * 1.5) - 0.5));
 		albedo = mix(color_a.rgb, color_b.rgb, n);
-		albedo = mix(albedo, color_c.rgb, crack * 0.8 + smoothstep(0.6, 0.85, fbm(p * 0.6)) * grime);
+		albedo = mix(albedo, color_c.rgb, crack * 0.8 + smoothstep(0.6, 0.85, fbmq(p * 0.6)) * grime);
 		h = 0.5 - crack * 0.3 + n * 0.1;
 	} else if (pattern == 5) {
 		vec2 g = floor(p / 0.8);
 		float checker = mod(g.x + g.y, 2.0);
 		vec2 f = fract(p / 0.8);
 		float joint = smoothstep(0.0, 0.01, min(min(f.x, 1.0 - f.x), min(f.y, 1.0 - f.y)));
-		float vein = pow(abs(sin(p.x * 3.0 + p.y * 1.5 + fbm(p * 2.0) * 7.0)), 18.0);
+		float vein = pow(abs(sin(p.x * 3.0 + p.y * 1.5 + fbmq(p * 2.0) * 7.0)), 18.0);
 		vec3 m1 = mix(color_a.rgb, color_b.rgb, vein);
 		vec3 m2 = mix(color_c.rgb, color_a.rgb * 1.3, vein * 0.7);
 		albedo = mix(m1, m2, checker) * mix(0.3, 1.0, joint);
@@ -133,11 +139,11 @@ vec4 eval_pattern(vec2 uv, out vec3 albedo, out float rough) {
 		rough = roughness_base + (1.0 - joint) * 0.4 + n * 0.1;
 	} else if (pattern == 6) {
 		albedo = mix(color_a.rgb, color_b.rgb, n);
-		albedo = mix(albedo, color_c.rgb, smoothstep(0.55, 0.8, fbm(p * 4.0)) * grime);
+		albedo = mix(albedo, color_c.rgb, smoothstep(0.55, 0.8, fbmq(p * 4.0)) * grime);
 		h = n;
 		rough = roughness_base + n * 0.2;
 	} else if (pattern == 7) {
-		float streak = fbm(vec2(p.x * 9.0, p.y * 0.8));
+		float streak = fbmq(vec2(p.x * 9.0, p.y * 0.8));
 		float ridges = smoothstep(0.35, 0.65, streak);
 		albedo = mix(color_c.rgb, mix(color_a.rgb, color_b.rgb, n), ridges);
 		h = ridges;
@@ -148,16 +154,79 @@ vec4 eval_pattern(vec2 uv, out vec3 albedo, out float rough) {
 		albedo = mix(albedo, color_c.rgb, leaves);
 		h = n + leaves * 0.2;
 		rough = 0.98;
+	} else if (pattern == 10) {
+		// Re:Zero mansion walls: cream panels framed with gold mouldings
+		float pw = 1.6;
+		float fx = fract(p.x / pw) * pw;
+		float y = p.y;
+		float d_dado = min(min(fx - 0.16, pw - 0.16 - fx), min(y - 0.2, 0.9 - y));
+		float d_up = min(min(fx - 0.16, pw - 0.16 - fx), min(y - 1.3, 3.35 - y));
+		float d = max(d_dado, d_up);
+		float line1 = smoothstep(0.022, 0.0, abs(d)) ;
+		float line2 = smoothstep(0.012, 0.0, abs(d - 0.07)) * step(0.0, d);
+		vec2 cxy = vec2(min(fx - 0.16, pw - 0.16 - fx), min(abs(y - 1.3), abs(y - 3.35)));
+		float corner = smoothstep(0.07, 0.04, length(cxy - vec2(0.12))) * step(1.2, y) * step(y, 3.45);
+		float inside = step(0.0, d);
+		float rail = step(0.98, y) * step(y, 1.1);
+		float base = step(y, 0.12);
+		albedo = mix(color_a.rgb, color_b.rgb, inside * 0.8);
+		float gold = clamp(line1 + line2 * 0.8 + corner + rail * 0.6, 0.0, 1.0);
+		albedo = mix(albedo, color_c.rgb, gold);
+		albedo = mix(albedo, color_a.rgb * 0.45, base);
+		albedo *= 1.0 - smoothstep(0.6, 0.9, n) * grime * 0.5;
+		h = 0.5 + gold * 0.2 - inside * 0.08 + rail * 0.15;
+		rough = mix(roughness_base, 0.35, gold);
+	} else if (pattern == 11) {
+		// diamond floor tiles with small dark insets (Subaru's bedroom)
+		vec2 q = vec2(p.x + p.y, p.x - p.y) * 0.7071 / 0.62;
+		vec2 id = floor(q);
+		vec2 f = fract(q);
+		float checker = mod(id.x + id.y, 2.0);
+		float joint = smoothstep(0.0, 0.03, min(min(f.x, 1.0 - f.x), min(f.y, 1.0 - f.y)));
+		float ins = smoothstep(0.2, 0.15, max(min(f.x, 1.0 - f.x), min(f.y, 1.0 - f.y)));
+		albedo = mix(color_a.rgb, color_b.rgb, checker);
+		albedo = mix(albedo, color_c.rgb, ins);
+		albedo *= mix(0.6, 1.0, joint);
+		albedo *= 0.9 + 0.2 * n;
+		h = joint * 0.6;
+		rough = roughness_base + n * 0.1;
+	} else if (pattern == 12) {
+		// exterior facade: storeys of tall windows, cornices, stone base
+		float cw = 2.6;
+		float fh = 3.8;
+		float fx = fract(p.x / cw) * cw - cw * 0.5;
+		float fy = fract(p.y / fh) * fh;
+		float win = step(abs(fx), 0.5) * step(0.75, fy) * step(fy, 2.85);
+		float arch = step(length(vec2(fx, (fy - 2.85) * 1.0)), 0.5) * step(2.85, fy);
+		win = max(win, arch);
+		float frame = step(abs(fx), 0.62) * step(0.6, fy) * step(fy, 3.2) * (1.0 - win);
+		float cornice = step(fy, 0.22);
+		albedo = mix(color_a.rgb, color_b.rgb, frame);
+		albedo = mix(albedo, color_a.rgb * 0.7, cornice);
+		albedo = mix(albedo, color_c.rgb, win);
+		albedo = mix(albedo, color_a.rgb * 0.55, step(p.y, 0.9));
+		albedo *= 0.85 + 0.25 * n;
+		h = 0.5 + frame * 0.2 - win * 0.3 + cornice * 0.2;
+		rough = mix(roughness_base, 0.08, win);
+	} else if (pattern == 13) {
+		// slate roof
+		float row = floor(p.y / 0.28);
+		float sx = fract(p.x / 0.4 + mod(row, 2.0) * 0.5);
+		float edge = smoothstep(0.0, 0.05, sx) * smoothstep(0.0, 0.05, 1.0 - sx) * smoothstep(0.0, 0.08, fract(p.y / 0.28));
+		albedo = mix(color_a.rgb, color_b.rgb, hash12(vec2(row, floor(p.x / 0.4))));
+		albedo = mix(color_c.rgb, albedo, edge);
+		h = edge * 0.6;
+		rough = 0.7;
 	} else {
 		// 9: dark wainscot panels (vertical panels with bevelled frames)
 		vec2 ps = vec2(0.9, 1.0);
 		vec2 f = fract(p / ps);
 		float frame = min(min(f.x, 1.0 - f.x) * ps.x, min(f.y, 1.0 - f.y) * ps.y);
 		float bevel = smoothstep(0.05, 0.09, frame);
-		float grain = sin(p.y * 60.0 + fbm(p * vec2(2.0, 18.0)) * 6.0) * 0.5 + 0.5;
+		float grain = sin(p.y * 60.0 + fbmq(p * vec2(2.0, 18.0)) * 6.0) * 0.5 + 0.5;
 		albedo = mix(color_a.rgb, color_b.rgb, grain * 0.4 + n * 0.3);
 		albedo *= mix(0.55, 1.0, bevel);
-		albedo = mix(albedo, color_c.rgb, smoothstep(0.6, 0.85, fbm(p * 1.1)) * grime);
+		albedo = mix(albedo, color_c.rgb, smoothstep(0.6, 0.85, fbmq(p * 1.1)) * grime);
 		h = bevel * 0.7 + grain * 0.05;
 	}
 	return vec4(h, 0.0, 0.0, 0.0);
@@ -169,7 +238,8 @@ void fragment() {
 	float rough;
 	vec4 r = eval_pattern(uv, albedo, rough);
 	float h = r.x;
-	// Screen-space derivative bump mapping (Mikkelsen)
+	// Screen-space derivative bump mapping (Mikkelsen) — skipped on low quality
+	if (material_quality > 0.5) {
 	vec3 dpdx = dFdx(VERTEX);
 	vec3 dpdy = dFdy(VERTEX);
 	float dhdx = dFdx(h);
@@ -179,13 +249,25 @@ void fragment() {
 	float det = dot(dpdx, r1);
 	vec3 grad = sign(det) * (dhdx * r1 + dhdy * r2);
 	NORMAL = normalize(abs(det) * NORMAL - bump_strength * 0.04 * grad);
+	}
 	// Envy pulse: veins of violet light appear in the walls when she is close
-	float vein = smoothstep(0.022, 0.0, abs(fbm(uv * 0.45 + TIME * 0.02) - 0.5)) * smoothstep(0.3, 0.7, fbm(uv * 0.2 + 7.0));
+	float vein = (envy_pulse < 0.01 || material_quality < 0.5) ? 0.0 : smoothstep(0.022, 0.0, abs(fbmq(uv * 0.45 + TIME * 0.02) - 0.5)) * smoothstep(0.3, 0.7, fbmq(uv * 0.2 + 7.0));
 	vec3 pulse = vec3(0.45, 0.08, 0.6) * vein * envy_pulse * breathe;
 	ALBEDO = albedo;
 	ROUGHNESS = clamp(rough, 0.05, 1.0);
 	METALLIC = metallic_base;
 	AO = clamp(0.35 + h, 0.0, 1.0);
 	AO_LIGHT_AFFECT = 0.6;
-	EMISSION = emission_color.rgb * emission_energy + pulse * 0.7;
+	vec3 lit = vec3(0.0);
+	if (pattern == 12) {
+		vec2 p2 = uv * scale;
+		vec2 wid = vec2(floor(p2.x / 2.6), floor(p2.y / 3.8));
+		float fx2 = fract(p2.x / 2.6) * 2.6 - 1.3;
+		float fy2 = fract(p2.y / 3.8) * 3.8;
+		float w2 = step(abs(fx2), 0.5) * step(0.75, fy2) * step(fy2, 2.85);
+		float on = step(0.94, hash12(wid + 3.0));
+		vec3 tint = hash12(wid + 9.0) > 0.5 ? vec3(0.9, 0.55, 0.25) : vec3(0.45, 0.2, 0.75);
+		lit = tint * w2 * on * 0.8;
+	}
+	EMISSION = emission_color.rgb * emission_energy + pulse * 0.7 + lit;
 }

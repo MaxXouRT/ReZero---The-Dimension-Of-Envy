@@ -30,11 +30,11 @@ func build() -> void:
 	# the ends are pure darkness
 	Builder.box(self, Vector3(3.6, 3.8, 0.2), Vector3(0, 1.9, -20.1), Builder.mat("black"))
 	Builder.box(self, Vector3(3.6, 3.8, 0.2), Vector3(0, 1.9, 20.1), Builder.mat("black"))
-	Builder.box(self, Vector3(39.0, 0.01, 1.2), Vector3(0, 0.006, 0), Builder.mat("carpet"), false, Vector3(0, 90, 0))
+	Builder.runner(self, Vector3.ZERO, 39.0, false, 2.2)
 	# identical 7 m bays so the loop is invisible
 	for k in range(-2, 3):
 		var z := k * 7.0
-		Builder.sconce(self, Vector3(-1.6, 2.1, z), Vector3(1, 0, 0), true)
+		Builder.lantern(self, Vector3(-1.6, 2.3, z), Vector3(1, 0, 0), true)
 		var c := Builder.painting(self, Vector3(1.66, 1.75, z), -90.0, Vector2(0.75, 1.0), 0, 3.0)
 		c.add_to_group("paintings")
 		paintings.append(c)

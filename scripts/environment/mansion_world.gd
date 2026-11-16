@@ -28,7 +28,7 @@ const ZONE_SCRIPTS := {
 const ORIGINS := {
 	"bedroom": Vector3(0, 0, 0),
 	"east_corridor": Vector3(8.3, 0, 5.4),
-	"dining_room": Vector3(12, 0, 12.2),
+	"dining_room": Vector3(50.4, 0, -0.6),
 	"grand_hall": Vector3(34, 0, 5.4),
 	"west_wing": Vector3(28, 0, -15.9),
 	"forgotten_bedroom": Vector3(28, 0, -28.7),

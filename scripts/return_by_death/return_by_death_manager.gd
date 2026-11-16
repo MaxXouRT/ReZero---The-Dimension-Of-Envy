@@ -127,9 +127,9 @@ func _on_player_died(cause: String) -> void:
 	fingers.visible = false
 	tree.paused = false
 	tree.change_scene_to_file(GAME_SCENE)
-	await tree.create_timer(0.4).timeout
+	await tree.create_timer(0.15).timeout
 	var tw3 := create_tween()
-	tw3.tween_property(black, "color:a", 0.0, 1.6)
+	tw3.tween_property(black, "color:a", 0.0, 0.25)   # the eyelids take over
 	await tw3.finished
 	running = false
 

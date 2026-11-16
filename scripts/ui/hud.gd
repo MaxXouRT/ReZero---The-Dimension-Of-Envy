@@ -16,6 +16,7 @@ var chapter_title: Label
 var chapter_sub: Label
 var battery_label: Label
 var debug_label: Label
+var fps_label: Label
 var _sub_time := 0.0
 var _obj_time := 0.0
 var _toast_time := 0.0
@@ -108,6 +109,13 @@ func _ready() -> void:
 	debug_label.anchor_right = 0.5
 	debug_label.anchor_bottom = 0.98
 	debug_label.visible = false
+	fps_label = _label(root, 16, Color(0.7, 1.0, 0.7))
+	fps_label.anchor_left = 0.85
+	fps_label.anchor_right = 0.99
+	fps_label.anchor_top = 0.01
+	fps_label.anchor_bottom = 0.05
+	fps_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	fps_label.visible = Settings.show_fps
 	EventBus.interaction_prompt_changed.connect(_on_prompt)
 	EventBus.dialogue_line.connect(_on_line)
 	EventBus.dialogue_cleared.connect(func(): _sub_time = minf(_sub_time, 0.4))
@@ -133,6 +141,11 @@ func _label(parent: Control, size: int, color: Color) -> Label:
 	l.add_theme_constant_override("shadow_offset_y", 2)
 	parent.add_child(l)
 	return l
+
+
+func set_fps_visible(on: bool) -> void:
+	if fps_label:
+		fps_label.visible = on
 
 
 func _apply_sub_size() -> void:
@@ -217,6 +230,8 @@ func _process(delta: float) -> void:
 	_battery_show -= delta
 	battery_label.text = "Pile : %d%%" % int(float(GameState.run.get("battery", 1.0)) * 100.0)
 	battery_label.modulate.a = move_toward(battery_label.modulate.a, 0.8 if _battery_show > 0.0 else 0.0, delta * 2.0)
+	if fps_label.visible:
+		fps_label.text = "%d FPS" % Engine.get_frames_per_second()
 	if _debug:
 		var game := get_parent()
 		var sat_state := ""

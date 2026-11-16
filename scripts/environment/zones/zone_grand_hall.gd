@@ -30,13 +30,13 @@ func build() -> void:
 			{"side": "n", "offset": -6.0, "width": 1.2, "height": 2.3},
 			{"side": "n", "offset": 0.0, "width": 1.2, "height": 2.3, "bottom": 5.0},
 			{"side": "s", "offset": 0.0, "width": 3.0, "height": 4.2},
-			{"side": "e", "offset": -6.0, "width": 1.8, "height": 4.2, "bottom": 1.4},
+			{"side": "e", "offset": -6.0, "width": 1.2, "height": 2.3},
 			{"side": "e", "offset": 0.0, "width": 1.8, "height": 4.2, "bottom": 1.4},
 			{"side": "e", "offset": 6.0, "width": 1.8, "height": 4.2, "bottom": 1.4},
 		],
 	})
 	# carpets
-	Builder.box(self, Vector3(3.0, 0.012, 22.0), Vector3(0, 0.008, 1.5), Builder.mat("carpet_violet"), false)
+	Builder.runner(self, Vector3(0, 0, 1.5), 22.0, false, 3.2)
 	# balcony (mezzanine)
 	Builder.box(self, Vector3(22, 0.3, 3.0), Vector3(0, 4.85, -11.5), Builder.mat("wood_floor"), true, Vector3.ZERO, "wood")
 	Builder.railing(self, Vector3(-11, 5.0, -10.0), Vector3(-1.9, 5.0, -10.0))
@@ -59,8 +59,10 @@ func build() -> void:
 		if not GameState.has_flag("tried_main_doors"):
 			GameState.set_flag("tried_main_doors")
 	# windows; the north-east one shows the impossible room
-	for z in [-6.0, 0.0, 6.0]:
+	for z in [0.0, 6.0]:
 		Builder.window(self, Vector3(11.1, 1.4, z), -90.0, Vector2(1.8, 4.2), true)
+	var dining_door := Builder.door(self, Vector3(11.0, 0, -6.0), -90.0, {"name": "DiningDoor"})
+	dining_door.set_meta("story_door", true)
 	_build_impossible_room()
 	# pillars and decoration
 	for x in [-8.0, 8.0]:

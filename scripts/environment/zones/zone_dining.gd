@@ -15,7 +15,7 @@ func _init() -> void:
 func build() -> void:
 	set_bounds(Vector3(0, 2.1, 0), Vector3(10, 4.2, 10))
 	Builder.room(self, Vector3.ZERO, Vector3(10, 4.2, 10), {"name": "Dining", "wall": "wallpaper_red", "floor": "wood_floor",
-		"openings": [{"side": "n", "offset": 0.0, "width": 1.2, "height": 2.3}]})
+		"openings": [{"side": "w", "offset": 0.0, "width": 1.2, "height": 2.3}]})
 	Builder.box(self, Vector3(7.5, 0.01, 3.4), Vector3(0, 0.006, 0.8), Builder.mat("carpet"), false)
 	Builder.table_long(self, Vector3(0, 0, 0.8), 6.2, 0.0)
 	# two chair arrangements swapped by the WorldDistortionSystem
@@ -40,7 +40,7 @@ func build() -> void:
 	Builder.painting(self, Vector3(4.85, 2.6, 0.5), -90.0, Vector2(1.1, 1.0), 1, 4.0)
 	Builder.grandfather_clock(self, Vector3(-4.6, 0, 3.6), 90.0)
 	Builder.painting(self, Vector3(0, 2.4, 4.85), 180.0, Vector2(1.4, 1.8), 4, 1.0).add_to_group("paintings")
-	Builder.painting(self, Vector3(-4.85, 2.3, -1.0), 90.0, Vector2(0.8, 1.1), 0, 6.0).add_to_group("paintings")
+	Builder.painting(self, Vector3(-4.85, 2.3, -2.8), 90.0, Vector2(0.8, 1.1), 0, 6.0).add_to_group("paintings")
 	Builder.box(self, Vector3(0.5, 1.0, 2.2), Vector3(-4.5, 0.5, -2.2), Builder.mat("wood_dark"))
 	readable(Vector3(0.3, 0.86, -1.6), "note_dining", "Lire la carte")
 	var mirror := Mirror.new()

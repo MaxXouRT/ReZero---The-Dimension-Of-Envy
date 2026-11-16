@@ -26,7 +26,7 @@ void sky() {
 	col += vein_color.rgb * 0.15 * envy_pulse * n;
 	// faint dust specks (not stars: they move and breathe)
 	float speck = step(0.9985, hash12(floor(p * 60.0))) * (0.5 + 0.5 * sin(TIME * 0.7 + hash12(floor(p * 60.0)) * 40.0));
-	col += vec3(0.25, 0.15, 0.35) * speck * 0.4;
+	col += vec3(0.25, 0.15, 0.35) * speck * 0.0;   // no stars in this sky
 	// the eye in the sky
 	if (eye_strength > 0.0) {
 		vec3 eye_dir = normalize(vec3(0.0, 0.35, -1.0));

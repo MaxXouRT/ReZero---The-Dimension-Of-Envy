@@ -10,7 +10,9 @@ const SHOTS := [
 	{"name": "01_bedroom", "pos": Vector3(-1.1, 0.05, -0.6), "yaw": 200.0, "pitch": -8.0},
 	{"name": "02_corridor", "pos": Vector3(-4.0, 0.05, 5.4), "yaw": -90.0, "pitch": 0.0},
 	{"name": "03_hall", "pos": Vector3(34.0, 0.05, 16.5), "yaw": 0.0, "pitch": 8.0},
-	{"name": "04_dining", "pos": Vector3(12.0, 0.05, 8.6), "yaw": 180.0, "pitch": -5.0},
+	{"name": "04_dining", "pos": Vector3(46.3, 0.05, -0.6), "yaw": -90.0, "pitch": -5.0},
+	{"name": "04b_window_view", "pos": Vector3(8.3, 0.05, 6.4), "yaw": 180.0, "pitch": 8.0},
+	{"name": "02b_corridor_east", "pos": Vector3(19.0, 0.05, 5.4), "yaw": 90.0, "pitch": 4.0},
 	{"name": "05_west_wing", "pos": Vector3(28.0, 0.05, -9.0), "yaw": 0.0, "pitch": 0.0},
 	{"name": "06_forgotten", "pos": Vector3(28.0, 0.05, -25.2), "yaw": 0.0, "pitch": -5.0},
 	{"name": "07_library", "pos": Vector3(0.0, 0.05, -71.0), "yaw": 0.0, "pitch": 6.0},
@@ -31,6 +33,9 @@ func _ready() -> void:
 			out_dir = a.get_slice("=", 1)
 		if a.begins_with("--only="):
 			only = a.get_slice("=", 1)
+		if a.begins_with("--preset="):
+			Settings._preset_values(int(a.get_slice("=", 1)))
+			Settings.apply_display()
 	DirAccess.make_dir_recursive_absolute(out_dir)
 	SaveManager.use_sandbox()
 	EventBus.player_died.connect(func(c): print("PLAYER DIED: ", c, " at ", game.player.global_position))

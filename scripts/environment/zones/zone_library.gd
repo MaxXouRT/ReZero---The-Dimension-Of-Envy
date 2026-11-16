@@ -23,28 +23,50 @@ func _init() -> void:
 
 func build() -> void:
 	set_bounds(Vector3(0, 4.5, 0), Vector3(14, 9, 22))
-	Builder.room(self, Vector3.ZERO, Vector3(14, 9, 22), {"name": "Library", "wall": "wainscot", "floor": "wood_floor", "wainscot": false, "beams": true,
-		"openings": [{"side": "s", "offset": 0.0, "width": 1.2, "height": 2.3}]})
-	Builder.box(self, Vector3(4.0, 0.012, 18.0), Vector3(0, 0.008, 0), Builder.mat("carpet"), false)
-	# wall-to-ceiling shelves
+	Builder.room(self, Vector3.ZERO, Vector3(14, 9, 22), {"name": "Library", "wall": "panel_teal", "floor": "marble_checker", "ceiling": "plaster_cream", "wainscot": false, "beams": false,
+		"openings": [{"side": "s", "offset": 0.0, "width": 1.9, "height": 2.7}]})
+	# lower level: wall-to-wall glossy bookcases with gold-lined cornices
 	var seed_i := 0
 	for z in [-8.0, -4.0, 0.0, 4.0, 8.0]:
-		Builder.bookshelf(self, Vector3(-6.75, 0, z), 90.0, 3.8, 7.2, seed_i)
-		Builder.bookshelf(self, Vector3(6.75, 0, z), -90.0, 3.8, 7.2, seed_i + 50)
+		Builder.bookshelf(self, Vector3(-6.75, 0, z), 90.0, 3.8, 3.6, seed_i, "wood_warm")
+		Builder.bookshelf(self, Vector3(6.75, 0, z), -90.0, 3.8, 3.6, seed_i + 50, "wood_warm")
 		seed_i += 1
 	for x in [-4.5, 4.5]:
-		Builder.bookshelf(self, Vector3(x, 0, -10.75), 0.0, 3.6, 7.2, seed_i + 90)
+		Builder.bookshelf(self, Vector3(x, 0, -10.75), 0.0, 3.6, 3.6, seed_i + 90, "wood_warm")
 		seed_i += 1
-	# freestanding rows
+	# the gallery (mezzanine) running around the room, with its own shelves
+	for sx in [-1.0, 1.0]:
+		Builder.box(self, Vector3(1.5, 0.25, 22.0), Vector3(sx * 6.25, 3.95, 0), Builder.mat("wood_warm"), false)
+		Builder.box(self, Vector3(0.08, 0.3, 22.0), Vector3(sx * 5.5, 3.75, 0), Builder.mat("gilt"), false)
+		Builder.railing(self, Vector3(sx * 5.55, 4.05, -10.9), Vector3(sx * 5.55, 4.05, 10.9), 0.95)
+		for z in [-8.0, -4.0, 0.0, 4.0, 8.0]:
+			Builder.bookshelf(self, Vector3(sx * 6.75, 4.08, z), -90.0 * sx, 3.8, 3.3, seed_i + 400, "wood_warm")
+			seed_i += 1
+	Builder.box(self, Vector3(11.0, 0.25, 1.5), Vector3(0, 3.95, -10.25), Builder.mat("wood_warm"), false)
+	Builder.railing(self, Vector3(-5.5, 4.05, -9.5), Vector3(5.5, 4.05, -9.5), 0.95)
+	for x in [-4.5, 4.5]:
+		Builder.bookshelf(self, Vector3(x, 4.08, -10.75), 0.0, 3.6, 3.3, seed_i + 600, "wood_warm")
+		seed_i += 1
+	# freestanding rows of tall cabinets
 	for z in [-5.0, 1.0, 6.0]:
 		for x in [-4.0, 4.0]:
-			Builder.bookshelf(self, Vector3(x, 0, z), 0.0, 3.0, 3.0, seed_i + 200)
-			Builder.bookshelf(self, Vector3(x, 0, z - 0.45), 180.0, 3.0, 3.0, seed_i + 300)
+			Builder.bookshelf(self, Vector3(x, 0, z), 0.0, 3.0, 3.0, seed_i + 200, "wood_warm")
+			Builder.bookshelf(self, Vector3(x, 0, z - 0.45), 180.0, 3.0, 3.0, seed_i + 300, "wood_warm")
 			seed_i += 1
-	# ladders
+	# ladders up to the gallery
 	for z in [-6.0, 2.0]:
-		var lad := Builder.box(self, Vector3(0.5, 6.5, 0.06), Vector3(-6.35, 3.2, z), Builder.mat("wood_dark"), false, Vector3(0, 0, -8))
+		var lad := Builder.box(self, Vector3(0.5, 4.2, 0.06), Vector3(-5.2, 2.0, z), Builder.mat("wood_warm"), false, Vector3(0, 0, -10))
 		lad.name = "Ladder"
+	# the great arched door frame
+	Builder.box(self, Vector3(2.6, 0.3, 0.4), Vector3(0, 2.85, 10.85), Builder.mat("wood_warm"), false)
+	var fan := Builder.cyl(self, 1.3, 1.3, 0.35, Vector3(0, 3.0, 10.85), Builder.mat("wood_warm"), false, 20, Vector3(90, 0, 0))
+	fan.scale = Vector3(1.0, 1.0, 0.8)
+	for sx in [-1.15, 1.15]:
+		Builder.box(self, Vector3(0.3, 2.9, 0.42), Vector3(sx, 1.45, 10.85), Builder.mat("wood_warm"), false)
+	# a small round table and chair, like the one Beatrice reads at
+	Builder.cyl(self, 0.45, 0.45, 0.05, Vector3(1.6, 0.72, 4.0), Builder.mat("wood_warm"), true, 20)
+	Builder.cyl(self, 0.05, 0.12, 0.7, Vector3(1.6, 0.36, 4.0), Builder.mat("wood_warm"), false, 8)
+	Builder.chair(self, Vector3(2.3, 0, 4.4), -110.0)
 	# reading desk, lectern with the riddle, bell
 	Builder.table_long(self, Vector3(0, 0, -1.5), 3.0, 90.0, false)
 	var lect := Builder.node(self, "Lectern", Vector3(0, 0, -8.6))
@@ -96,7 +118,7 @@ func build() -> void:
 		Builder.candle(holder, Vector3.ZERO, true, i % 3 == 0, Color(0.7, 0.45, 1.0), 0.8, 6.0)
 	Builder.fog_volume(self, Vector3(0, 6.5, 0), Vector3(14, 4, 22), 0.35)
 	# exit back to the east corridor
-	exit_door = Builder.door(self, Vector3(0, 0, 10.9), 180.0, {"name": "LibraryExit"})
+	exit_door = Builder.door(self, Vector3(0, 0, 10.9), 180.0, {"name": "LibraryExit", "double": true, "width": 1.9, "height": 2.7})
 	exit_door.set_meta("story_door", true)
 	exit_door.set_portal(null, _exit)
 	spot(Vector3(0, 0, -9.5), "room")

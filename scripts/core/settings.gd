@@ -34,6 +34,16 @@ var vsync: bool = true
 var fov: float = 75.0
 var brightness: float = 1.0
 var film_grain: bool = true
+var fps_limit: int = 0                ## 0 = unlimited, else 30 / 45 / 60 / 120
+var show_fps: bool = false
+var shadow_quality: int = 2           ## 0 none, 1 flashlight only, 2 all
+var light_distance: float = 40.0      ## lights fade out beyond this distance (m)
+var view_distance: float = 220.0      ## camera far plane (m)
+var mirrors: bool = true              ## real-time reflections (expensive)
+var post_process: bool = true         ## grain / vignette / aberration screen pass
+var material_quality: int = 1         ## 0 simplified procedural materials, 1 full detail
+var msaa: int = 1                     ## 0 off, 1 2x, 2 4x (Forward+ only)
+var fxaa: bool = true
 
 # --- Controls ----------------------------------------------------------------
 var mouse_sensitivity: float = 0.0025
@@ -52,7 +62,8 @@ const SAVED_KEYS := [
 	"player_name", "first_launch_done",
 	"vol_master", "vol_music", "vol_sfx", "vol_ambience", "vol_voice", "vol_jumpscare",
 	"quality", "volumetric_fog", "ssao", "glow", "shadows", "render_scale", "fullscreen", "vsync",
-	"fov", "brightness", "film_grain",
+	"fov", "brightness", "film_grain", "fps_limit", "show_fps", "shadow_quality", "light_distance",
+	"view_distance", "mirrors", "post_process", "material_quality", "msaa", "fxaa",
 	"mouse_sensitivity", "gamepad_sensitivity", "touch_sensitivity", "invert_y", "toggle_crouch",
 	"reduce_flashes", "reduce_camera_motion", "subtitles", "subtitle_size",
 ]
@@ -63,11 +74,8 @@ func _ready() -> void:
 	force_mobile = OS.get_cmdline_user_args().has("--mobile")
 	_setup_input_map()
 	if is_mobile():
-		# Sensible defaults for phones / tablets.
-		quality = 0
-		volumetric_fog = false
-		ssao = false
-		render_scale = 0.8
+		# Sensible defaults for phones / tablets (the "Bas" preset).
+		_preset_values(0)
 	load_settings()
 	apply_display()
 
@@ -127,29 +135,50 @@ func set_player_name(value: String) -> void:
 
 
 func apply_display() -> void:
-	if Engine.is_editor_hint() or is_mobile():
+	if Engine.is_editor_hint():
 		return
-	if DisplayServer.get_name() == "headless":
+	# Applied everywhere, phones included (resolution and frame cap matter most there).
+	var vp := get_viewport()
+	if vp:
+		vp.scaling_3d_scale = clampf(render_scale, 0.4, 1.0)
+		vp.scaling_3d_mode = Viewport.SCALING_3D_MODE_FSR if (is_forward_plus() and render_scale < 0.99) else Viewport.SCALING_3D_MODE_BILINEAR
+		vp.msaa_3d = [Viewport.MSAA_DISABLED, Viewport.MSAA_2X, Viewport.MSAA_4X][clampi(msaa, 0, 2)] if is_forward_plus() else Viewport.MSAA_DISABLED
+		vp.screen_space_aa = Viewport.SCREEN_SPACE_AA_FXAA if fxaa else Viewport.SCREEN_SPACE_AA_DISABLED
+	Engine.max_fps = fps_limit
+	RenderingServer.global_shader_parameter_set("material_quality", float(material_quality))
+	if is_mobile() or DisplayServer.get_name() == "headless":
 		return
 	var mode := DisplayServer.WINDOW_MODE_FULLSCREEN if fullscreen else DisplayServer.WINDOW_MODE_WINDOWED
 	if DisplayServer.window_get_mode() != mode:
 		DisplayServer.window_set_mode(mode)
 	DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED if vsync else DisplayServer.VSYNC_DISABLED)
-	get_viewport().scaling_3d_scale = clampf(render_scale, 0.5, 1.0)
 
 
-## Applies a quality preset to the individual toggles.
-func apply_quality_preset(level: int) -> void:
+## Fills every graphics option from a preset (0 Bas, 1 Moyen, 2 Élevé, 3 Ultra).
+func _preset_values(level: int) -> void:
 	quality = clampi(level, 0, 3)
 	match quality:
 		0:
-			volumetric_fog = false; ssao = false; glow = true; shadows = true; render_scale = 0.75
+			volumetric_fog = false; ssao = false; glow = false; shadows = true; shadow_quality = 1
+			render_scale = 0.5; fps_limit = 30; light_distance = 14.0; view_distance = 45.0
+			mirrors = false; post_process = false; film_grain = false; material_quality = 0; msaa = 0; fxaa = false
 		1:
-			volumetric_fog = false; ssao = true; glow = true; shadows = true; render_scale = 0.9
+			volumetric_fog = false; ssao = false; glow = true; shadows = true; shadow_quality = 1
+			render_scale = 0.8; fps_limit = 60; light_distance = 22.0; view_distance = 80.0
+			mirrors = false; post_process = true; film_grain = true; material_quality = 1; msaa = 0; fxaa = true
 		2:
-			volumetric_fog = true; ssao = true; glow = true; shadows = true; render_scale = 1.0
+			volumetric_fog = true; ssao = true; glow = true; shadows = true; shadow_quality = 2
+			render_scale = 1.0; fps_limit = 0; light_distance = 35.0; view_distance = 160.0
+			mirrors = true; post_process = true; film_grain = true; material_quality = 1; msaa = 1; fxaa = true
 		3:
-			volumetric_fog = true; ssao = true; glow = true; shadows = true; render_scale = 1.0
+			volumetric_fog = true; ssao = true; glow = true; shadows = true; shadow_quality = 2
+			render_scale = 1.0; fps_limit = 0; light_distance = 60.0; view_distance = 220.0
+			mirrors = true; post_process = true; film_grain = true; material_quality = 1; msaa = 2; fxaa = true
+
+
+## Applies a quality preset to every individual option.
+func apply_quality_preset(level: int) -> void:
+	_preset_values(level)
 	apply_display()
 	save_settings()
 

@@ -39,8 +39,9 @@ func intro() -> void:
 
 ## After Return by Death: the loop reacts.
 func on_respawn() -> void:
-	game.post.fade_from_black(2.2)
-	AudioManager.play_2d("rbd_rewind", -4.0)
+	# Return by Death: he opens his eyes in the past.
+	AudioManager.play_2d("rbd_awaken", 0.0, 1.0, "Jumpscare")
+	game.post.open_eyes(2.6)
 	EventBus.loop_started.emit(GameState.run["loop"], GameState.deaths())
 	var d := GameState.deaths()
 	await get_tree().create_timer(2.6).timeout

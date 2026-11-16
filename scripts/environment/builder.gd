@@ -56,12 +56,54 @@ static func mat(key: String) -> Material:
 		return _mats[key]
 	var m: Material
 	match key:
-		"wallpaper":
+		"panel_cream", "wallpaper":
+			m = _arch(10, Color(0.5, 0.43, 0.32), Color(0.58, 0.51, 0.39), Color(0.55, 0.4, 0.14), 1.0, 0.75, 0.0, 0.6, 0.25)
+		"panel_teal":
+			m = _arch(10, Color(0.22, 0.34, 0.33), Color(0.27, 0.4, 0.38), Color(0.55, 0.42, 0.16), 1.0, 0.75, 0.0, 0.6, 0.2)
+		"panel_dirty", "wallpaper_grey":
+			m = _arch(10, Color(0.3, 0.26, 0.2), Color(0.34, 0.3, 0.23), Color(0.32, 0.25, 0.11), 1.0, 0.85, 0.0, 0.7, 0.95)
+		"tiles_diamond":
+			m = _arch(11, Color(0.34, 0.32, 0.42), Color(0.4, 0.38, 0.48), Color(0.14, 0.12, 0.22), 1.0, 0.3, 0.0, 0.4, 0.2)
+		"marble_checker":
+			m = _arch(5, Color(0.66, 0.64, 0.62), Color(0.78, 0.76, 0.74), Color(0.025, 0.025, 0.03), 1.0, 0.15, 0.0, 0.4, 0.2)
+		"marble_cream":
+			m = _arch(5, Color(0.55, 0.5, 0.42), Color(0.68, 0.63, 0.55), Color(0.48, 0.44, 0.37), 1.4, 0.2, 0.0, 0.4, 0.2)
+		"facade":
+			m = _arch(12, Color(0.5, 0.45, 0.37), Color(0.6, 0.55, 0.46), Color(0.015, 0.015, 0.03), 1.0, 0.8, 0.0, 0.5, 0.4, 0.0)
+		"slate":
+			m = _arch(13, Color(0.09, 0.11, 0.16), Color(0.13, 0.15, 0.21), Color(0.03, 0.03, 0.05), 1.0, 0.7, 0.0, 0.5, 0.2, 0.0)
+		"wood_warm":
+			m = _arch(1, Color(0.26, 0.09, 0.04), Color(0.4, 0.16, 0.07), Color(0.1, 0.04, 0.02), 1.4, 0.32, 0.0, 0.4, 0.2, 0.0)
+		"cobble":
+			m = _arch(2, Color(0.2, 0.19, 0.2), Color(0.28, 0.27, 0.28), Color(0.06, 0.06, 0.07), 2.6, 0.9, 0.0, 1.0, 0.4, 0.0)
+		"plaster_cream":
+			m = _arch(4, Color(0.46, 0.41, 0.33), Color(0.54, 0.49, 0.4), Color(0.4, 0.35, 0.28), 0.7, 0.85, 0.0, 0.4, 0.1)
+		"carpet_navy":
+			m = _arch(3, Color(0.04, 0.06, 0.14), Color(0.3, 0.28, 0.38), Color(0.02, 0.02, 0.05), 1.0, 1.0, 0.0, 0.3, 0.1)
+		"red_carpet":
+			m = _std(Color(0.4, 0.045, 0.04), 1.0)
+		"green_border":
+			m = _std(Color(0.05, 0.2, 0.11), 1.0)
+		"topiary":
+			m = _std(Color(0.025, 0.07, 0.035), 0.95)
+		"curtain_blue":
+			m = _std(Color(0.05, 0.09, 0.24), 0.9)
+		"cushion_white":
+			m = _std(Color(0.7, 0.68, 0.64), 0.9)
+		"flower_pink":
+			m = _std(Color(0.75, 0.35, 0.5), 0.8)
+		"porcelain":
+			m = _std(Color(0.7, 0.72, 0.6), 0.3)
+		"lantern_glass":
+			m = _std(Color(0.4, 0.95, 0.5), 0.2, 0.0, Color(0.35, 0.95, 0.45), 2.2, true)
+		"window_glass":
+			m = _std(Color(0.05, 0.04, 0.09, 0.18), 0.02, 0.6, Color.BLACK, 0.0, false, true)
+		"wallpaper_violet":
+			m = _arch(0, Color(0.13, 0.06, 0.17), Color(0.24, 0.12, 0.3), Color(0.035, 0.02, 0.035), 1.0, 0.85)
+		"_unused_wallpaper":
 			m = _arch(0, Color(0.13, 0.06, 0.17), Color(0.24, 0.12, 0.3), Color(0.035, 0.02, 0.035), 1.0, 0.85)
 		"wallpaper_red":
 			m = _arch(0, Color(0.2, 0.04, 0.06), Color(0.34, 0.09, 0.12), Color(0.04, 0.015, 0.02), 1.0, 0.85)
-		"wallpaper_grey":
-			m = _arch(0, Color(0.14, 0.13, 0.16), Color(0.22, 0.21, 0.25), Color(0.04, 0.04, 0.045), 1.1, 0.85, 0.0, 0.6, 0.8)
 		"wainscot":
 			m = _arch(9, Color(0.12, 0.065, 0.045), Color(0.2, 0.12, 0.08), Color(0.03, 0.018, 0.012), 1.0, 0.6)
 		"wood_floor":
@@ -84,7 +126,7 @@ static func mat(key: String) -> Material:
 		"carpet_violet":
 			m = _arch(3, Color(0.06, 0.02, 0.1), Color(0.14, 0.06, 0.2), Color(0.02, 0.01, 0.03), 1.0, 1.0, 0.0, 0.3)
 		"plaster":
-			m = _arch(4, Color(0.16, 0.15, 0.18), Color(0.23, 0.22, 0.25), Color(0.05, 0.045, 0.055), 0.7, 0.95)
+			m = _arch(4, Color(0.3, 0.26, 0.21), Color(0.36, 0.32, 0.26), Color(0.12, 0.1, 0.08), 0.7, 0.95)
 		"marble":
 			m = _arch(5, Color(0.25, 0.22, 0.28), Color(0.55, 0.52, 0.6), Color(0.03, 0.02, 0.04), 1.0, 0.18, 0.0, 0.5)
 		"gilt":
@@ -535,11 +577,11 @@ static func wardrobe(parent: Node, pos: Vector3, rot_y_deg := 0.0) -> Node3D:
 	return r
 
 
-static func bookshelf(parent: Node, pos: Vector3, rot_y_deg := 0.0, width := 2.0, height := 2.6, rng_seed := 0) -> Node3D:
+static func bookshelf(parent: Node, pos: Vector3, rot_y_deg := 0.0, width := 2.0, height := 2.6, rng_seed := 0, wood := "wood_dark") -> Node3D:
 	var r := node(parent, "Bookshelf", pos, rot_y_deg)
 	var rng := RandomNumberGenerator.new()
 	rng.seed = rng_seed
-	box(r, Vector3(width, height, 0.42), Vector3(0, height * 0.5, -0.02), mat("wood_dark"))
+	box(r, Vector3(width, height, 0.42), Vector3(0, height * 0.5, -0.02), mat(wood))
 	var shelves := int(height / 0.42)
 	var colors := [Color(0.18, 0.04, 0.05), Color(0.06, 0.05, 0.12), Color(0.1, 0.08, 0.04), Color(0.05, 0.09, 0.07), Color(0.14, 0.12, 0.1), Color(0.03, 0.03, 0.03)]
 	# one MultiMesh per shelf set for performance
@@ -577,7 +619,11 @@ static func bookshelf(parent: Node, pos: Vector3, rot_y_deg := 0.0, width := 2.0
 	r.add_child(mmi)
 	# shelf boards (front lips)
 	for s in shelves + 1:
-		box(r, Vector3(width, 0.04, 0.44), Vector3(0, 0.08 + s * 0.42, 0.0), mat("wood_dark"), false)
+		box(r, Vector3(width, 0.04, 0.44), Vector3(0, 0.08 + s * 0.42, 0.0), mat(wood), false)
+	if wood == "wood_warm":
+		# thick cornice with a gold line, like the Forbidden Library
+		box(r, Vector3(width + 0.12, 0.16, 0.5), Vector3(0, height + 0.08, 0.0), mat(wood), false)
+		box(r, Vector3(width + 0.13, 0.025, 0.51), Vector3(0, height + 0.02, 0.0), mat("gilt"), false)
 	return r
 
 
@@ -837,3 +883,191 @@ static func wall_writing(parent: Node, pos: Vector3, rot_y_deg: float, text: Str
 		l.modulate = Color(0.6, 0.55, 0.5, 0.8)
 	parent.add_child(l)
 	return l
+
+
+# =================================================================== Re:Zero mansion pieces
+## Barrel vault (inside surface) over a corridor, with arched ribs.
+## `center` = middle of the springing line (top of the walls).
+static func vault(parent: Node, center: Vector3, width: float, length: float, along_x := true, key := "plaster_cream", rib_every := 3.5) -> Node3D:
+	var root := node(parent, "Vault", center)
+	var r := width * 0.5
+	var st := SurfaceTool.new()
+	st.begin(Mesh.PRIMITIVE_TRIANGLES)
+	var segs := 18
+	var rings := maxi(2, int(length / 2.0) + 1)
+	for i in rings:
+		var t := float(i) / float(rings - 1)
+		var u := (t - 0.5) * length
+		for j in segs + 1:
+			var a := PI * float(j) / float(segs)
+			var c := cos(a) * r
+			var y := sin(a) * r
+			var v := Vector3(u, y, c) if along_x else Vector3(c, y, u)
+			var n := -Vector3(0, sin(a), cos(a)) if along_x else -Vector3(cos(a), sin(a), 0)
+			st.set_normal(n)
+			st.set_uv(Vector2(u, a * r))
+			st.add_vertex(v)
+	for i in rings - 1:
+		for j in segs:
+			var a0 := i * (segs + 1) + j
+			var b0 := a0 + segs + 1
+			for idx in [a0, b0, a0 + 1, a0 + 1, b0, b0 + 1, a0, a0 + 1, b0, a0 + 1, b0 + 1, b0]:
+				st.add_index(idx)
+	var mi := MeshInstance3D.new()
+	mi.mesh = st.commit()
+	mi.material_override = mat(key)
+	root.add_child(mi)
+	# ribs
+	var n_ribs := int(length / rib_every)
+	for k in n_ribs + 1:
+		var u2 := -length * 0.5 + k * (length / maxf(1.0, n_ribs))
+		for j in 9:
+			var a1 := PI * j / 9.0
+			var a2 := PI * (j + 1) / 9.0
+			var am := (a1 + a2) * 0.5
+			var seg_len := 2.0 * (r - 0.06) * sin((a2 - a1) * 0.5)
+			var pc := Vector3(0, sin(am) * (r - 0.08), cos(am) * (r - 0.08))
+			var rib := box(root, Vector3(0.22, 0.12, seg_len + 0.02), Vector3(u2, pc.y, pc.z) if along_x else Vector3(pc.z, pc.y, u2), mat("plaster_cream"), false)
+			if along_x:
+				rib.rotation.x = -(am - PI * 0.5)
+			else:
+				rib.rotation.z = (am - PI * 0.5)
+				rib.rotation.y = PI * 0.5
+	# lunettes closing both ends
+	for e in [-1.0, 1.0]:
+		var cap := box(root, Vector3(0.12, r + 0.1, width) if along_x else Vector3(width, r + 0.1, 0.12), (Vector3(e * length * 0.5, r * 0.5, 0) if along_x else Vector3(0, r * 0.5, e * length * 0.5)), mat("panel_cream"), false)
+		cap.name = "Lunette"
+	return root
+
+
+## Red runner with green borders and gold lines (the mansion corridors).
+static func runner(parent: Node, center: Vector3, length: float, along_x := true, width := 2.2) -> void:
+	var sz := func(w: float) -> Vector3: return Vector3(length, 0.012, w) if along_x else Vector3(w, 0.012, length)
+	var off := func(o: float) -> Vector3: return center + (Vector3(0, 0, o) if along_x else Vector3(o, 0, 0))
+	box(parent, sz.call(width - 0.6), off.call(0.0) + Vector3(0, 0.008, 0), mat("red_carpet"), false)
+	for sgn in [-1.0, 1.0]:
+		box(parent, sz.call(0.05), off.call(sgn * (width * 0.5 - 0.28)) + Vector3(0, 0.009, 0), mat("gilt"), false)
+		box(parent, sz.call(0.22), off.call(sgn * (width * 0.5 - 0.14)) + Vector3(0, 0.007, 0), mat("green_border"), false)
+
+
+## Wall lantern with green glass (eerie at night).
+static func lantern(parent: Node, pos: Vector3, facing: Vector3, lit := true) -> FlickerLight:
+	box(parent, Vector3(0.05, 0.05, 0.05) + facing.abs() * 0.25, pos - facing * 0.02 + Vector3(0, 0.22, 0), mat("iron"), false)
+	var body := pos + facing * 0.16
+	box(parent, Vector3(0.17, 0.3, 0.17), body, mat("lantern_glass") if lit else mat("glass_dark"), false)
+	cyl(parent, 0.0, 0.14, 0.14, body + Vector3(0, 0.22, 0), mat("iron"), false, 4)
+	box(parent, Vector3(0.2, 0.03, 0.2), body - Vector3(0, 0.16, 0), mat("iron"), false)
+	var l := light(parent, body, Color(0.5, 0.95, 0.6), 1.0, 6.0, false, 0.05)
+	if not lit:
+		l.kill()
+	return l
+
+
+## Pilaster with base and capital against a wall. `facing` points into the room.
+static func pilaster(parent: Node, pos: Vector3, facing: Vector3, height := 4.0) -> void:
+	var w := Vector3(0.34, 0, 0.34) - facing.abs() * 0.22
+	box(parent, w + Vector3(0, height, 0), pos + facing * 0.06 + Vector3(0, height * 0.5, 0), mat("plaster_cream"), false)
+	box(parent, w * 1.35 + facing.abs() * 0.05 + Vector3(0, 0.25, 0), pos + facing * 0.08 + Vector3(0, 0.125, 0), mat("plaster_cream"), false)
+	box(parent, w * 1.5 + facing.abs() * 0.1 + Vector3(0, 0.18, 0), pos + facing * 0.11 + Vector3(0, height - 0.15, 0), mat("plaster_cream"), false)
+	box(parent, w * 1.2 + facing.abs() * 0.06 + Vector3(0, 0.12, 0), pos + facing * 0.09 + Vector3(0, height - 0.33, 0), mat("gilt"), false)
+
+
+static func bench(parent: Node, pos: Vector3, rot_y_deg := 0.0) -> void:
+	var r := node(parent, "Bench", pos, rot_y_deg)
+	box(r, Vector3(0.95, 0.12, 0.42), Vector3(0, 0.42, 0), mat("cushion_white"))
+	for x in [-0.4, 0.4]:
+		for z in [-0.16, 0.16]:
+			cyl(r, 0.025, 0.035, 0.38, Vector3(x, 0.19, z), mat("wood_warm"), false, 6)
+
+
+static func vase_table(parent: Node, pos: Vector3, rot_y_deg := 0.0) -> void:
+	var r := node(parent, "VaseTable", pos, rot_y_deg)
+	cyl(r, 0.28, 0.28, 0.04, Vector3(0, 0.82, 0), mat("wood_warm"), true, 16)
+	for i in 3:
+		var a := TAU * i / 3.0
+		cyl(r, 0.02, 0.03, 0.8, Vector3(cos(a) * 0.18, 0.4, sin(a) * 0.18), mat("wood_warm"), false, 6)
+	cyl(r, 0.06, 0.09, 0.3, Vector3(0, 0.99, 0), mat("porcelain"), false, 12)
+	for i in 7:
+		var a2 := TAU * i / 7.0
+		sphere(r, 0.06, Vector3(cos(a2) * 0.09, 1.2 + (i % 2) * 0.05, sin(a2) * 0.09), mat("flower_pink" if i % 3 else "cushion_white"))
+
+
+## Tall window with blue curtains (bedroom / corridor).
+static func tall_window(parent: Node, pos: Vector3, rot_y_deg: float, size := Vector2(1.3, 2.8), curtains := true) -> Node3D:
+	var r := node(parent, "TallWindow", pos, rot_y_deg)
+	var g := MeshInstance3D.new()
+	var q := QuadMesh.new()
+	q.size = size
+	g.mesh = q
+	g.material_override = mat("window_glass")
+	g.position = Vector3(0, size.y * 0.5, 0)
+	r.add_child(g)
+	# white frame, mullions and transom
+	for x in [-size.x * 0.5, 0.0, size.x * 0.5]:
+		box(r, Vector3(0.06, size.y, 0.08), Vector3(x, size.y * 0.5, 0.02), mat("cushion_white"), false)
+	for y in [0.0, size.y * 0.72, size.y]:
+		box(r, Vector3(size.x, 0.06, 0.08), Vector3(0, y, 0.02), mat("cushion_white"), false)
+	if curtains:
+		for sx in [-1.0, 1.0]:
+			box(r, Vector3(size.x * 0.28, size.y + 0.5, 0.06), Vector3(sx * (size.x * 0.5 + 0.12), size.y * 0.5 + 0.15, 0.2), mat("curtain_blue"), false)
+		box(r, Vector3(size.x + 0.8, 0.28, 0.1), Vector3(0, size.y + 0.35, 0.24), mat("curtain_blue"), false)
+	var bs := BoxShape3D.new()
+	bs.size = Vector3(size.x, size.y, 0.1)
+	_add_collision(r, bs, Vector3(0, size.y * 0.5, 0))
+	return r
+
+
+## A wing of the mansion seen from outside (front faces local -Z).
+static func mansion_block(parent: Node, pos: Vector3, size: Vector3, rot_y_deg := 0.0, dormers := true) -> Node3D:
+	var r := node(parent, "MansionBlock", pos, rot_y_deg)
+	box(r, size, Vector3(0, size.y * 0.5, 0), mat("facade"), false)
+	# mansard roof: two slopes + flat top
+	var rh := 3.2
+	for sgn in [-1.0, 1.0]:
+		var slope := box(r, Vector3(size.x, 0.25, rh * 1.35), Vector3(0, size.y + rh * 0.5, sgn * (size.z * 0.5 - rh * 0.3)), mat("slate"), false)
+		slope.rotation.x = sgn * deg_to_rad(62)
+	box(r, Vector3(size.x, 0.2, size.z - rh * 1.1), Vector3(0, size.y + rh, 0), mat("slate"), false)
+	# cornice
+	box(r, Vector3(size.x + 0.3, 0.35, size.z + 0.3), Vector3(0, size.y, 0), mat("plaster_cream"), false)
+	if dormers:
+		var n := int(size.x / 5.2)
+		for i in n:
+			var x := -size.x * 0.5 + 2.6 + i * 5.2
+			box(r, Vector3(1.0, 1.4, 0.9), Vector3(x, size.y + 1.4, -size.z * 0.5 + 1.2), mat("facade"), false)
+			var cap := box(r, Vector3(1.3, 0.2, 1.1), Vector3(x, size.y + 2.2, -size.z * 0.5 + 1.2), mat("slate"), false)
+			cap.rotation.z = 0.0
+	for i in int(size.x / 9.0):
+		box(r, Vector3(0.6, 2.2, 0.6), Vector3(-size.x * 0.5 + 4.5 + i * 9.0, size.y + rh + 0.8, size.z * 0.2), mat("facade"), false)
+	return r
+
+
+static func tower(parent: Node, pos: Vector3, radius := 1.6, height := 20.0, spire := 7.0) -> Node3D:
+	var r := node(parent, "Tower", pos)
+	cyl(r, radius, radius, height, Vector3(0, height * 0.5, 0), mat("facade"), false, 16)
+	cyl(r, radius + 0.2, radius + 0.2, 0.4, Vector3(0, height, 0), mat("plaster_cream"), false, 16)
+	cyl(r, 0.0, radius + 0.25, spire, Vector3(0, height + spire * 0.5, 0), mat("slate"), false, 12)
+	cyl(r, 0.03, 0.05, 1.6, Vector3(0, height + spire + 0.6, 0), mat("iron"), false, 6)
+	return r
+
+
+static func topiary(parent: Node, pos: Vector3, h := 3.2) -> void:
+	cyl(parent, 0.0, h * 0.22, h, pos + Vector3(0, h * 0.5 + 0.2, 0), mat("topiary"), false, 10)
+	cyl(parent, 0.06, 0.08, 0.4, pos + Vector3(0, 0.2, 0), mat("bark"), false, 6)
+
+
+static func lamp_post(parent: Node, pos: Vector3, lit := true) -> FlickerLight:
+	cyl(parent, 0.05, 0.08, 3.2, pos + Vector3(0, 1.6, 0), mat("iron"), false, 8)
+	box(parent, Vector3(0.28, 0.4, 0.28), pos + Vector3(0, 3.4, 0), mat("glass_dark") if not lit else mat("flame"), false)
+	cyl(parent, 0.0, 0.24, 0.3, pos + Vector3(0, 3.75, 0), mat("iron"), false, 4)
+	var l := light(parent, pos + Vector3(0, 3.3, 0), Color(1.0, 0.75, 0.5), 1.4, 9.0, false, 0.08)
+	if not lit:
+		l.kill()
+	return l
+
+
+## Puts every visual of `n` on render layer 3 as well (exterior lighting).
+static func mark_exterior(n: Node) -> void:
+	if n is VisualInstance3D:
+		(n as VisualInstance3D).layers |= 4
+	for c in n.get_children():
+		mark_exterior(c)

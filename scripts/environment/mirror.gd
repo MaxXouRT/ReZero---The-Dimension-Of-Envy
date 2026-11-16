@@ -69,6 +69,9 @@ func _process(_delta: float) -> void:
 	var in_front := lp.z > 0.05
 	var near_enough := lp.length() < active_distance
 	var visible_now := in_front and near_enough and pc.is_position_in_frustum(global_position)
+	if not Settings.mirrors:
+		visible_now = false
+	surface.visible = Settings.mirrors
 	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS if visible_now else SubViewport.UPDATE_DISABLED
 	if not visible_now:
 		return

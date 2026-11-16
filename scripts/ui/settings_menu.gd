@@ -127,31 +127,83 @@ func _audio_tab() -> void:
 	_slider(p, "Volume des jumpscares", "vol_jumpscare", 0.0, 1.0, 0.01)
 
 
+var _gfx_page: VBoxContainer
+
+
 func _graphics_tab() -> void:
-	var p := _page("Graphismes")
-	var hb := HBoxContainer.new()
-	p.add_child(hb)
-	var l := UITheme.label("Préréglage", 21, UITheme.GREY)
-	l.custom_minimum_size.x = 360
-	hb.add_child(l)
-	var ob := OptionButton.new()
-	for q in ["Bas (mobile)", "Moyen", "Élevé", "Ultra"]:
-		ob.add_item(q)
-	ob.selected = Settings.quality
-	ob.item_selected.connect(func(i: int):
-		Settings.apply_quality_preset(i)
-		Settings.settings_changed.emit())
-	hb.add_child(ob)
-	_check(p, "Brouillard volumétrique (Forward+)", "volumetric_fog")
-	_check(p, "Occlusion ambiante (SSAO)", "ssao")
-	_check(p, "Lueur (glow)", "glow")
-	_check(p, "Ombres dynamiques", "shadows")
+	_gfx_page = _page("Graphismes")
+	_fill_graphics()
+
+
+## Rebuilt after a preset so every widget shows the new values.
+func _fill_graphics() -> void:
+	var p := _gfx_page
+	for c in p.get_children():
+		c.queue_free()
+	var pc := not Settings.is_mobile()
+	var fplus := Settings.is_forward_plus()
+	_header(p, "Préréglage")
+	_option(p, "Qualité globale", "quality", ["Bas (téléphone)", "Moyen", "Élevé", "Ultra"], func():
+		Settings.apply_quality_preset(Settings.quality)
+		_fill_graphics.call_deferred())
+	var hint := UITheme.label("Choisis un préréglage puis ajuste chaque option ci-dessous. Si le jeu rame : baisse d'abord l'échelle de rendu, puis la distance des lumières.", 17, UITheme.GREY)
+	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	p.add_child(hint)
+	_header(p, "Performances")
+	_slider(p, "Échelle de rendu (résolution 3D)", "render_scale", 0.4, 1.0, 0.05, Settings.apply_display)
+	_option(p, "Limite d'images par seconde", "fps_limit", ["Illimitée", "30", "45", "60", "120"], Settings.apply_display, [0, 30, 45, 60, 120])
+	_check(p, "Afficher le compteur FPS", "show_fps")
+	_slider(p, "Distance des lumières (m)", "light_distance", 8.0, 60.0, 1.0)
+	_slider(p, "Distance d'affichage (m)", "view_distance", 30.0, 220.0, 5.0)
+	_option(p, "Qualité des matériaux", "material_quality", ["Simplifiée (rapide)", "Détaillée"], Settings.apply_display)
+	_option(p, "Ombres", "shadow_quality", ["Aucune", "Lampe torche seulement", "Toutes"])
+	_check(p, "Reflets des miroirs (coûteux)", "mirrors")
+	_header(p, "Image")
+	_check(p, "Post-traitement (vignette, grain, aberration)", "post_process")
 	_check(p, "Grain de film", "film_grain")
-	_check(p, "Plein écran", "fullscreen", Settings.apply_display)
-	_check(p, "Synchronisation verticale", "vsync", Settings.apply_display)
-	_slider(p, "Échelle de rendu", "render_scale", 0.5, 1.0, 0.05, Settings.apply_display)
+	_check(p, "Lueur (glow)", "glow")
+	_check(p, "Anticrénelage FXAA", "fxaa", Settings.apply_display)
+	if fplus:
+		_option(p, "Anticrénelage MSAA", "msaa", ["Désactivé", "2x", "4x"], Settings.apply_display)
+		_check(p, "Brouillard volumétrique", "volumetric_fog")
+		_check(p, "Occlusion ambiante (SSAO)", "ssao")
 	_slider(p, "Champ de vision", "fov", 60.0, 100.0, 1.0)
 	_slider(p, "Luminosité", "brightness", 0.6, 1.6, 0.05)
+	if pc:
+		_header(p, "Fenêtre")
+		_check(p, "Plein écran", "fullscreen", Settings.apply_display)
+		_check(p, "Synchronisation verticale", "vsync", Settings.apply_display)
+
+
+func _header(parent: Control, text: String) -> void:
+	var l := UITheme.label(text.to_upper(), 18, UITheme.VIOLET.lightened(0.35))
+	parent.add_child(l)
+
+
+## Drop-down bound to an int setting. `values` maps item index -> stored value.
+func _option(parent: Control, text: String, key: String, items: Array, apply: Callable = Callable(), values: Array = []) -> void:
+	var hb := HBoxContainer.new()
+	hb.add_theme_constant_override("separation", 18)
+	parent.add_child(hb)
+	var l := UITheme.label(text, 21, UITheme.GREY)
+	l.custom_minimum_size.x = 360
+	l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	hb.add_child(l)
+	var ob := OptionButton.new()
+	ob.add_theme_font_size_override("font_size", 20)
+	ob.custom_minimum_size = Vector2(260, 48)
+	for it in items:
+		ob.add_item(String(it))
+	var cur: int = int(Settings.get(key))
+	ob.selected = values.find(cur) if not values.is_empty() else clampi(cur, 0, items.size() - 1)
+	ob.item_selected.connect(func(i: int):
+		Settings.set(key, int(values[i]) if not values.is_empty() else i)
+		AudioManager.play_ui("ui_click")
+		if apply.is_valid():
+			apply.call()
+		Settings.settings_changed.emit())
+	hb.add_child(ob)
 
 
 func _controls_tab() -> void:

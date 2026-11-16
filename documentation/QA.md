@@ -7,6 +7,8 @@
 | Vérificateur de scripts | `godot --headless --path . res://tests/check_scripts.tscn` | tous les scripts GDScript compilent (avec les autoloads) |
 | Suite gameplay | `godot --headless --path . res://tests/run_tests.tscn [-- --only=systems|chapters|walk|meta]` | voir ci-dessous |
 | Test tactile (téléphone simulé) | `godot --headless --path . res://tests/touch_test.tscn -- --mobile` | menus au doigt, joystick, regard, boutons à l’écran, bouton Retour Android |
+| Test clavier / souris (PC) | `xvfb-run godot --path . res://tests/pc_input_test.tscn` | menus à la souris, Échap, ZQSD/WASD, Maj, souris, F, C, Tab, Échap, E |
+| Mesure de performances relative | `res://tests/perf_probe.tscn -- --preset=N` | FPS moyens à un point fixe selon le préréglage |
 | Visite visuelle | `xvfb-run godot --path . --rendering-driver vulkan res://tests/screenshot_tour.tscn -- --out=DIR` | capture chaque zone + Satella (rendu Forward+ réel, compilation des shaders) |
 | Capture de scène | `res://tests/capture_scene.tscn -- --scene=… --time=… --out=…` (`--visits=N`, `--true`) | lobby et ses variantes |
 | Capture de mort | `res://tests/capture_death.tscn -- DIR` | écran Return by Death |
@@ -28,7 +30,8 @@ Les tests utilisent un **bac à sable de sauvegarde** (`user://qa_*`) : ils ne t
 ## Résultats (build actuel)
 
 - `check_scripts` : 73 scripts, 0 échec.
-- `run_tests` : toutes les sections passent (systèmes 99/99 ; progression des chapitres, bot de déplacement, fin TRUE et fin B : OK).
+- `pc_input_test` : 15/15 ; `touch_test` : 17/17.
+- `run_tests` : 119/119, toutes les sections passent (systèmes 99/99 ; progression des chapitres, bot de déplacement, fin TRUE et fin B : OK).
 - Visite visuelle : 15 captures, aucune erreur de shader, aucune mort inattendue.
 
 ## Limitations connues / à faire
