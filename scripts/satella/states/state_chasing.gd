@@ -43,6 +43,7 @@ func update(delta: float) -> void:
 
 func exit() -> void:
 	ai.body.speed_hint = 0.0
+	ai.body.tendril_amount = 0.0
 
 
 func interruptible() -> bool:

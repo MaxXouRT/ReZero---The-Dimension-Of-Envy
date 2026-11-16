@@ -6,7 +6,7 @@ Le projet est **autonome** : aucun asset externe. Tout ce qui suit est un placeh
 
 | Placeholder | Où | Remplacement conseillé |
 |---|---|---|
-| Satella (primitives animées par code) | `scripts/satella/satella_body.gd` | Modèle riggé (glTF) : garder l'API `set_pose()`, `set_persona()`, `set_dissolve()`, `look_target`, `head_tilt`, `set_mirror_only()` ; les poses deviennent des animations (`AnimationTree`). Matériau : réutiliser `shaders/satella.gdshader` (bord violet + dissolution). |
+| Satella (maillages procéduraux : surfaces de révolution pour la robe, rubans pour la chevelure, d’après l’image de référence du projet) | `scripts/satella/satella_body.gd`, `shaders/satella_hair.gdshader`, `shaders/satella_veil.gdshader` | Modèle riggé (glTF) : garder l'API `set_pose()`, `set_persona()`, `set_dissolve()`, `look_target`, `head_tilt`, `set_mirror_only()` ; les poses deviennent des animations (`AnimationTree`). Matériau : réutiliser `shaders/satella.gdshader` (bord violet + dissolution). |
 | Mains d'ombre (chaînes de capsules) | `satella_body.gd`, `zone_throne.gd` | Mesh skinné / VFX particules noires avec `shadow_tendril.gdshader` |
 | Mobilier (lits, bureaux, bibliothèques, chaises, horloges…) | `scripts/environment/builder.gd` | Remplacer le contenu de chaque fonction (`bed()`, `desk()`…) par l'instanciation d'une scène `.glb` ; la signature reste identique |
 | Matériaux (papier peint, parquet, pierre, marbre…) | `shaders/architecture.gdshader` + `Builder.mat()` | Textures PBR : remplacer l'entrée correspondante de `Builder.mat()` par un `StandardMaterial3D` triplanaire |

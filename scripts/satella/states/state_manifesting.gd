@@ -80,5 +80,5 @@ func _finish() -> void:
 
 
 func exit() -> void:
-	ai.body.tendril_amount = 1.0
+	ai.body.tendril_amount = 0.0
 	ai.body.set_face_lit(0.0)

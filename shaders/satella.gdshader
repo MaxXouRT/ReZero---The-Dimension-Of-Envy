@@ -8,6 +8,7 @@ render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_burley;
 
 uniform vec4 albedo : source_color = vec4(0.03, 0.02, 0.04, 1.0);
 uniform float roughness = 0.7;
+uniform float specular_amount = 0.15;
 uniform vec4 rim_color : source_color = vec4(0.55, 0.25, 0.8, 1.0);
 uniform float rim_power = 3.0;
 uniform float rim_strength = 0.6;
@@ -38,6 +39,7 @@ void fragment() {
 	float rim = pow(1.0 - clamp(dot(NORMAL, VIEW), 0.0, 1.0), rim_power);
 	ALBEDO = albedo.rgb * (0.85 + 0.3 * n);
 	ROUGHNESS = roughness;
+	SPECULAR = specular_amount;
 	EMISSION = rim_color.rgb * rim * rim_strength + dissolve_edge.rgb * edge * 4.0 + emission.rgb * emission_energy
 		+ vec3(0.75, 0.78, 0.9) * shimmer * (0.3 + 0.7 * rim) * (0.6 + 0.4 * sin(TIME * 2.0 + lpos.y * 5.0));
 }

@@ -14,6 +14,7 @@ var _modify_t := 45.0
 func enter(a: Dictionary) -> void:
 	ai.hide_body()
 	ai.body.set_pose(SatellaBody.Pose.IDLE)
+	ai.body.tendril_amount = 0.0
 	cooldown = float(a.get("cooldown", ai.next_cooldown()))
 	_whisper_t = randf_range(60.0, 120.0)
 

@@ -81,7 +81,7 @@ func _build_scene() -> void:
 	body.position = seat + Vector3(0, 0.0, 0.05)
 	body.rotation.y = 0.0
 	body.twitch = 0.08
-	body.tendril_amount = 0.35
+	body.tendril_amount = 0.0
 	if _true_mode:
 		body.set_pose(SatellaBody.Pose.STILL)
 		body.position = seat + Vector3(0, 0, 1.2)
