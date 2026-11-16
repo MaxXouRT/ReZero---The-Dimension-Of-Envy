@@ -10,14 +10,24 @@ extends Node
 ## Only these two files are ever written or read. The game never inspects
 ## anything else on the player's machine.
 
-const SAVE_PATH := "user://savegame.json"
-const META_PATH := "user://meta.json"
+var SAVE_PATH := "user://savegame.json"
+var META_PATH := "user://meta.json"
 const SAVE_VERSION := 1
 
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	load_meta()
+
+
+## QA: redirects every file to user://qa_* so automated tests never touch
+## the player's real save, endings or lobby history.
+func use_sandbox() -> void:
+	SAVE_PATH = "user://qa_savegame.json"
+	META_PATH = "user://qa_meta.json"
+	if FileAccess.file_exists(META_PATH):
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(META_PATH))
+	GameState.meta = GameState._fresh_meta()
 
 
 func has_save() -> bool:

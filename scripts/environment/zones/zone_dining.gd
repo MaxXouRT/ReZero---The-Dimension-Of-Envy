@@ -9,7 +9,7 @@ var chairs_b: Node3D
 func _init() -> void:
 	display_name = "Salle à manger"
 	ambience = {"amb_mansion_room": 0.65, "amb_drone_low": 0.3}
-	rules = {"follow": true, "manifest": true, "hunt": true, "chase": false, "spot_kinds": ["room"]}
+	rules = {"follow": true, "manifest": true, "hunt": true, "chase": false, "spot_kinds": ["room", "mirror"]}
 
 
 func build() -> void:
@@ -43,6 +43,12 @@ func build() -> void:
 	Builder.painting(self, Vector3(-4.85, 2.3, -1.0), 90.0, Vector2(0.8, 1.1), 0, 6.0).add_to_group("paintings")
 	Builder.box(self, Vector3(0.5, 1.0, 2.2), Vector3(-4.5, 0.5, -2.2), Builder.mat("wood_dark"))
 	readable(Vector3(0.3, 0.86, -1.6), "note_dining", "Lire la carte")
+	var mirror := Mirror.new()
+	mirror.size = Vector2(1.0, 1.4)
+	mirror.position = Vector3(-4.85, 1.9, 1.6)
+	mirror.rotation_degrees.y = 90.0
+	add_child(mirror)
+	spot(Vector3(-1.8, 0, 2.6), "mirror")
 	Pickups.battery(self, Vector3(-4.5, 1.02, -2.6), "battery_dining")
 	spot(Vector3(0, 0, 4.3), "room")
 	spot(Vector3(3.8, 0, 3.6), "room")

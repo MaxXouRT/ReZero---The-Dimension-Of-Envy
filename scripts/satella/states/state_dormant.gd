@@ -8,6 +8,7 @@ extends SatellaState
 
 var cooldown := 60.0
 var _whisper_t := 0.0
+var _modify_t := 45.0
 
 
 func enter(a: Dictionary) -> void:
@@ -25,6 +26,14 @@ func update(delta: float) -> void:
 		if not ai.try_spontaneous_appearance():
 			cooldown = randf_range(6.0, 12.0)
 		return
+	# OBSESSED+: she modifies the mansion while nobody is looking
+	_modify_t -= delta
+	if _modify_t <= 0.0:
+		_modify_t = randf_range(40.0, 80.0)
+		if EnvyAwareness.stage() >= EnvyAwareness.Stage.OBSESSED:
+			var g := ai.get_parent()
+			if g and g.get("distortion"):
+				g.distortion.random_change()
 	_whisper_t -= delta
 	if _whisper_t <= 0.0:
 		_whisper_t = randf_range(70.0, 140.0)

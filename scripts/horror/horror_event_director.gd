@@ -189,6 +189,13 @@ func execute(type: String, params: Dictionary) -> void:
 			player.flashlight.flicker(1.2, 1.0)
 			player.add_panic(0.5)
 			EventBus.camera_shake.emit(0.25, 0.3)
+			if randf() < 0.5 and satella.sm.current_name == "DORMANT":
+				# for a single flicker, she stands right there
+				satella.autonomous = false
+				satella.sm.change("INTERACTING", {"pos": player.global_position + player.forward() * 3.2, "pose": SatellaBody.Pose.STILL})
+				await get_tree().create_timer(0.35).timeout
+				satella.autonomous = true
+				satella.sm.change("DISAPPEARING", {"instant": true})
 		"fake_death":
 			if overlay:
 				overlay.fake_death()

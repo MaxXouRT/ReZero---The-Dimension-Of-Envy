@@ -18,7 +18,7 @@ const SOCKET_ORDER := ["forgotten_bedroom", "library_of_memories", "chapel_of_en
 func _init() -> void:
 	display_name = "Grand hall"
 	ambience = {"amb_mansion_room": 0.55, "amb_void_wind": 0.35, "amb_drone_low": 0.3}
-	rules = {"follow": true, "manifest": true, "hunt": true, "chase": true, "spot_kinds": ["balcony", "behind_glass", "room"]}
+	rules = {"follow": true, "manifest": true, "hunt": true, "chase": true, "spot_kinds": ["balcony", "behind_glass", "room", "mirror"]}
 
 
 func build() -> void:
@@ -77,6 +77,17 @@ func build() -> void:
 		Builder.candelabra(self, Vector3(side * 10.3, 0.9, -2.0), side > 0.0)
 		Builder.sconce(self, Vector3(side * 10.85, 3.0, 9.5), Vector3(-side, 0, 0), true)
 	Builder.fog_volume(self, Vector3(0, 0.6, 0), Vector3(22, 1.4, 26), 0.25)
+	# a tall mirror: sometimes she exists only in the reflection
+	var mirror := Mirror.new()
+	mirror.size = Vector2(1.3, 2.4)
+	mirror.position = Vector3(-10.85, 1.6, 0.0)
+	mirror.rotation_degrees.y = 90.0
+	add_child(mirror)
+	Builder.interactable(self, Vector3(-10.5, 1.6, 0.0), Vector3(0.4, 2.2, 1.3), "Regarder le miroir", func(_p):
+		if game and game.director:
+			game.director.notify("interact:mirror"))
+	spot(Vector3(-6.5, 0, 1.5), "mirror")
+	spot(Vector3(-7.5, 0, -2.0), "mirror")
 	_build_seal()
 	readable(Vector3(-10.3, 0.92, -1.8), "note_mirror_original", "Lire", true)
 	Pickups.battery(self, Vector3(10.3, 0.92, -1.6), "battery_hall")

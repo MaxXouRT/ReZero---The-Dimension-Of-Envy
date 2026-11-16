@@ -67,8 +67,8 @@ func _build_scene() -> void:
 	add_child(we)
 	var floor_mat := StandardMaterial3D.new()
 	floor_mat.albedo_color = Color(0.01, 0.006, 0.014)
-	floor_mat.roughness = 0.12
-	floor_mat.metallic = 0.5
+	floor_mat.roughness = 0.25
+	floor_mat.metallic = 0.3
 	Builder.box(self, Vector3(60, 0.2, 60), Vector3(0, -0.1, 0), floor_mat, false)
 	var seat := Vector3(0, 0, -9.0)
 	if _true_mode:

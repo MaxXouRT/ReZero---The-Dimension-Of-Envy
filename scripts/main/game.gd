@@ -199,7 +199,9 @@ func _apply_graphics() -> void:
 	env.glow_enabled = Settings.glow
 	env.adjustment_brightness = Settings.brightness
 	for l in get_tree().get_nodes_in_group("flicker_lights"):
-		if l is Light3D and l.shadow_enabled and not Settings.shadows:
-			l.shadow_enabled = false
+		if l is Light3D:
+			if not l.has_meta("authored_shadow"):
+				l.set_meta("authored_shadow", l.shadow_enabled)
+			l.shadow_enabled = bool(l.get_meta("authored_shadow")) and Settings.shadows
 	if player:
 		player.flashlight.spot.shadow_enabled = Settings.shadows or Settings.quality > 0

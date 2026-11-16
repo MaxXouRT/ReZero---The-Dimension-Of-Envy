@@ -69,6 +69,24 @@ func pick_for_loop(id: String) -> void:
 	force(id, GameState.deaths() % n)
 
 
+## The Witch rearranges the mansion: one registered element changes the next
+## time nobody looks at it, and a random painting turns into another.
+func random_change() -> void:
+	var ids := _items.keys()
+	if not ids.is_empty():
+		var id: String = ids[randi() % ids.size()]
+		if id != "forgotten_door":
+			var n: int = _items[id]["variants"].size()
+			request(id, (current(id) + 1) % n)
+	var paintings := get_tree().get_nodes_in_group("paintings")
+	if not paintings.is_empty() and player:
+		var mi := paintings[randi() % paintings.size()] as MeshInstance3D
+		if mi and not _is_seen(mi):
+			var m := mi.material_override as ShaderMaterial
+			if m:
+				m.set_shader_parameter("variant", [2, 3, 5][randi() % 3])
+
+
 func move_when_unseen(n: Node3D, xf: Transform3D) -> void:
 	_moves.append({"node": n, "xf": xf})
 

@@ -4,7 +4,7 @@
 	"c1_wake_3": {"speaker": "subaru", "text": "Il me faut de la lumière. Il y avait quelque chose sur le bureau...", "duration": 3.8},
 	"c1_flashlight": {"speaker": "subaru", "text": "Une lampe torche... dans ce monde ? Peu importe. Elle marche.", "duration": 3.8},
 	"c1_window": {"speaker": "subaru", "text": "Il n'y a rien dehors. Pas d'étoiles. Pas de lune. Juste... du violet.", "duration": 4.0},
-	"c1_mirror": {"speaker": "subaru", "text": "C'est bien moi. ...Pourquoi est-ce que j'en doute ?", "duration": 3.5},
+	"c1_mirror": {"speaker": "subaru", "text": "Le miroir... il montre la chambre. Mais pas moi. Je n'ai pas de reflet.", "duration": 4.2},
 	"c1_corridor": {"speaker": "subaru", "text": "Ce couloir était plus court que ça. J'en suis sûr.", "duration": 3.4},
 	"c1_footsteps": {"speaker": "subaru", "text": "Des pas... Ram ? C'est toi ?", "duration": 3.0},
 	"c1_hall": {"speaker": "subaru", "text": "Le hall... Il est plus grand que dans mes souvenirs. Beaucoup plus grand.", "duration": 4.0},

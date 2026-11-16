@@ -32,7 +32,18 @@ func build() -> void:
 	# dining door + a locked door
 	var dining_door := Builder.door(self, Vector3(3.7, 0, 1.7), 180.0, {"name": "DiningDoor"})
 	dining_door.set_meta("story_door", true)
-	Builder.door(self, Vector3(-2.0, 0, 1.7), 180.0, {"locked": true, "name": "LockedDoor"})
+	# A guest-room door that only exists on some loops (rooms vanish between deaths)
+	var guest_door_root := Builder.node(self, "GuestDoorVariant")
+	Builder.door(guest_door_root, Vector3(-2.0, 0, 1.7), 180.0, {"locked": true, "name": "LockedDoor"})
+	var guest_wall_root := Builder.node(self, "GuestWallVariant")
+	Builder.box(guest_wall_root, Vector3(1.3, 2.4, 0.22), Vector3(-2.0, 1.2, 1.7), Builder.mat("wallpaper"))
+	Builder.box(guest_wall_root, Vector3(1.3, 1.05, 0.04), Vector3(-2.0, 0.525, 1.57), Builder.mat("wainscot"), false)
+	Builder.painting(guest_wall_root, Vector3(-2.0, 1.75, 1.57), 180.0, Vector2(0.6, 0.8), 3, 21.0)
+	if game and game.distortion:
+		game.distortion.register("guest_room", [guest_door_root, guest_wall_root], 0)
+		game.distortion.pick_for_loop("guest_room")
+	else:
+		guest_wall_root.visible = false
 	# the four "any doors" (north wall, face the corridor = +Z)
 	for i in LIB_DOORS_X.size():
 		var d := Builder.door(self, Vector3(LIB_DOORS_X[i], 0, -1.7), 0.0, {"locked": GameState.chapter() < 2, "name": "AnyDoor%d" % i})

@@ -21,6 +21,7 @@ const SHOTS := [
 	{"name": "12_throne", "pos": Vector3(0.0, -49.9, -207.5), "yaw": 0.0, "pitch": 6.0},
 	{"name": "13_satella", "pos": Vector3(34.0, 0.05, 12.0), "yaw": 0.0, "pitch": 4.0, "satella": 2.6},
 	{"name": "14_satella_far", "pos": Vector3(-5.5, 0.05, 5.4), "yaw": -90.0, "pitch": 0.0, "satella": 12.0},
+	{"name": "15_satella_close", "pos": Vector3(148.0, 0.05, -12.0), "yaw": -90.0, "pitch": 8.0, "satella": 1.7},
 ]
 
 
@@ -31,6 +32,7 @@ func _ready() -> void:
 		if a.begins_with("--only="):
 			only = a.get_slice("=", 1)
 	DirAccess.make_dir_recursive_absolute(out_dir)
+	SaveManager.use_sandbox()
 	EventBus.player_died.connect(func(c): print("PLAYER DIED: ", c, " at ", game.player.global_position))
 	EventBus.satella_state_changed.connect(func(s): print("  satella -> ", s))
 	GameState.new_game()

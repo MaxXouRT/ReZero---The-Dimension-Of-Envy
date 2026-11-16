@@ -79,6 +79,8 @@ func can_open() -> bool:
 		return false
 	if game and game.player and game.player.dead:
 		return false
+	if game and ((game.journal and game.journal.is_open) or (game.reader and game.reader.is_open())):
+		return false
 	return true
 
 

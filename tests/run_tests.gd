@@ -21,6 +21,7 @@ func check(cond: bool, label: String) -> void:
 
 func _ready() -> void:
 	print("=== RE:ZERO — THE DIMENSION OF ENVY — QA suite ===")
+	SaveManager.use_sandbox()
 	var only := ""
 	for a in OS.get_cmdline_user_args():
 		if a.begins_with("--only="):
@@ -34,6 +35,8 @@ func _ready() -> void:
 		await _test_game_systems()
 	if only == "" or only == "chapters":
 		await _test_chapter_progression()
+	if only == "" or only == "walk":
+		await _test_walkthrough()
 	if only == "" or only == "meta":
 		await _test_meta_ending()
 	print("=== %d passed, %d failed ===" % [passes, failures.size()])
@@ -299,6 +302,58 @@ func _test_chapter_progression() -> void:
 		await get_tree().create_timer(4.0).timeout
 	check(throne._fragment_spawned, "3 pillars -> last fragment appears")
 	Engine.time_scale = 1.0
+
+
+## A bot physically walks bedroom -> corridor -> hall -> west wing -> forgotten
+## bedroom: validates collisions, openings and doors line up between rooms.
+func _test_walkthrough() -> void:
+	print("- physical walkthrough (collisions / openings)")
+	await _load_game_at(2)
+	var p: PlayerController = game.player
+	game.satella.autonomous = false
+	game.director.cutscene_active = true
+	p.teleport_to(Vector3(0, 0.05, 2.4), PI)
+	await _frames(5)
+	var bed_door: Door = game.world.get_zone("bedroom").get_node("BedroomDoor")
+	bed_door.open(-1.0, 0.1, true)
+	await get_tree().create_timer(0.3).timeout
+	await _walk(Vector3(0, 0, 1), 3.0, 1.6)
+	check(p.global_position.z > 4.3, "walked through bedroom door (z=%.2f)" % p.global_position.z)
+	check(game.world.current_zone == "east_corridor", "in corridor (%s)" % game.world.current_zone)
+	# back to the middle of the corridor, then east
+	await _walk(Vector3(0, 0, -1), 2.0, maxf(0.0, (p.global_position.z - 5.4) / 2.0))
+	await _walk(Vector3(1, 0, 0), 5.0, 6.0)
+	check(p.global_position.x > 24.0, "walked the corridor into the hall (x=%.2f)" % p.global_position.x)
+	check(game.world.current_zone == "grand_hall", "in grand hall (%s)" % game.world.current_zone)
+	# line up with the west wing door (x = 28)
+	var dx := 28.0 - p.global_position.x
+	await _walk(Vector3(signf(dx), 0, 0), 3.0, absf(dx) / 3.0)
+	var hall = game.world.get_zone("grand_hall")
+	hall.west_door.open(1.0, 0.1, true)
+	await get_tree().create_timer(0.3).timeout
+	await _walk(Vector3(0, 0, -1), 5.0, 4.6)
+	check(p.global_position.z < -9.0, "walked through the west wing door (z=%.2f)" % p.global_position.z)
+	check(game.world.current_zone == "west_wing", "in west wing (%s)" % game.world.current_zone)
+	# forgotten door appears (puzzle state) then walk in
+	GameState.set_flag("forgotten_door_open")
+	game.distortion.force("forgotten_door", 1)
+	var wing = game.world.get_zone("west_wing")
+	wing.forgotten_door.open(1.0, 0.1, true)
+	await get_tree().create_timer(0.3).timeout
+	await _walk(Vector3(0, 0, -1), 5.0, 3.6)
+	check(game.world.current_zone == "forgotten_bedroom", "entered the Forgotten Bedroom (%s, z=%.2f)" % [game.world.current_zone, p.global_position.z])
+	# chapel approach from the forest arrival
+	var forest = game.world.get_zone("forest")
+	game.transition_teleport(forest.spawn_points["arrival"]["pos"], 0.0, "forest", 0.0)
+	await _frames(5)
+	await _walk(Vector3(0, 0, -1), 6.0, 15.5)
+	check(game.world.current_zone == "chapel", "walked the forest path into the chapel (%s, z=%.2f)" % [game.world.current_zone, p.global_position.z])
+	game.director.cutscene_active = false
+
+
+func _walk(dir: Vector3, speed: float, seconds: float) -> void:
+	game.player.scripted_walk(dir, speed, seconds)
+	await get_tree().create_timer(seconds + 0.25).timeout
 
 
 func _test_meta_ending() -> void:
