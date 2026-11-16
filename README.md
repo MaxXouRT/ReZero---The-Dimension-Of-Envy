@@ -25,7 +25,7 @@ Options de ligne de commande (QA) :
 | `godot --path . -- --chapter=N` | saute au chapitre N (2–5), `6` = salle noire (finale méta), `7` = trône |
 | **F3** en jeu (build debug) | overlay QA : Envy Awareness, état de Satella, zone, fragments |
 
-Rendu : **Forward+** sur PC (brouillard volumétrique, SSAO, ombres dynamiques). Le profil mobile bascule automatiquement sur le renderer **Mobile** (brouillard classique, qualité basse par défaut, contrôles tactiles).
+Rendu : **Forward+** sur PC (brouillard volumétrique, SSAO, ombres dynamiques). Le profil mobile utilise le renderer **Compatibilité** (OpenGL ES 3 : brouillard classique, qualité basse par défaut, contrôles tactiles). Le renderer Vulkan « Mobile » de Godot 4.3 produit un manifeste Android que les Android récents refusent d’analyser.
 
 ## Commandes
 
@@ -89,4 +89,4 @@ xvfb-run godot --path . --rendering-driver vulkan res://tests/screenshot_tour.ts
 
 ## Export
 
-`export_presets.cfg` contient **Windows Desktop** (exe avec PCK embarqué) et **Android** (arm64, renderer Mobile, plein écran immersif). Installer les modèles d'export de Godot, puis *Projet > Exporter*. Pour Android, configurer le SDK et un keystore dans *Éditeur > Paramètres de l'éditeur > Export > Android*.
+`export_presets.cfg` contient **Windows Desktop** (exe avec PCK embarqué) et **Android** (arm64 + armeabi-v7a, renderer Compatibilité, plein écran immersif). Installer les modèles d'export de Godot, puis *Projet > Exporter*. Pour Android, configurer le SDK et un keystore dans *Éditeur > Paramètres de l'éditeur > Export > Android*.

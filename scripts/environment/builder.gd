@@ -799,6 +799,8 @@ static func floating_ruin(parent: Node, pos: Vector3, rng_seed := 0, scale := 1.
 
 ## A single fog volume (local, denser fog) — only active with volumetric fog.
 static func fog_volume(parent: Node, pos: Vector3, size: Vector3, density := 0.6, albedo := Color(0.42, 0.25, 0.55)) -> FogVolume:
+	if not Settings.is_forward_plus():
+		return null   # local fog volumes need Forward+ (mobile uses classic fog)
 	var fv := FogVolume.new()
 	fv.size = size
 	fv.position = pos
